@@ -89,7 +89,7 @@ listed, never repaired by guessing.
   to the sentence it came from; on a new situation the released pill combines rules learned from four operators in
   different years.
 - **Measured, not claimed.** Each version is graded blind on the next incident and regression-tested on all earlier
-  ones; the gate flagged two versions that made earlier triage worse, and the approver saw it before deciding.
+  ones; the gate flagged that v1.3.0 made an earlier triage worse (the replay script approved it anyway and recorded why) and flags that the pending v1.5.0 would weaken two earlier ones: that is the decision the first human approver faces.
 - **Owned by the company.** Plain files, published schemas, two interchangeable model vendors, a tamper-evident
   ledger: the knowledge outlives any tool or vendor contract.
 - **For Keppel specifically.** Keppel DC REIT runs 25 data centres in 10 countries; the same engine applies to
