@@ -7,6 +7,10 @@ AI HARVEST: Turning Expert Know-How into Reusable Intelligence**.
 
 Debrief to Duty
 
+## Project link
+
+https://debrief-to-duty.vercel.app · source: https://github.com/yorhagengyue/debrief-to-duty
+
 ## Short blurb (under 10 words)
 
 Incident debriefs become cited, approved know-how for duty teams.

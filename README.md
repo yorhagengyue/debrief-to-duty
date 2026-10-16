@@ -4,6 +4,8 @@
 
 Keppel Real Estate Track · AI HARVEST: turning expert know-how into reusable intelligence.
 
+**Live viewer: https://debrief-to-duty.vercel.app** (static; no account, no key)
+
 When an operator solves a problem nobody had seen before, the judgement that solved it lives in a review document
 and in a few people's heads. The next site, in another city, five years later, starts from zero. This repository
 shows a working alternative on real, public material: six data-centre cooling incidents at four operators,
@@ -34,7 +36,7 @@ next incident before anyone learns how that one ended.
 npm install
 npm test                      # 13 unit tests: citations, numbers, ledger tampering, versions, access control, cards, diffs
 npm run pills -- verify       # every citation, excerpt, source hash and ledger hash checked
-open web/index.html           # the viewer; works straight from disk
+open web/index.html           # the viewer; works straight from disk (live copy: https://debrief-to-duty.vercel.app)
 ```
 
 Everything above runs **without an API key**: every model call is recorded under `fixtures/llm/` and replayed

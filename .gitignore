@@ -3,3 +3,4 @@ node_modules/
 sources/cache/
 dist/
 *.log
+.vercel/
