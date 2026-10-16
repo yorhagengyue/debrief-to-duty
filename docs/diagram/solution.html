@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>Debrief to Duty · solution diagram</title>
+<style>
+  :root { --ink:#17201f; --muted:#5b6765; --line:#cfd8d6; --cap:#0b6e6e; --gov:#7a4cc2; --use:#c2620b; --bg:#fbfcfb; }
+  html, body { margin:0; width:1800px; height:1120px; background:var(--bg); color:var(--ink); font-family:"Segoe UI", system-ui, sans-serif; }
+  .page { position:relative; padding:34px 44px; }
+  h1 { margin:0; font-size:34px; letter-spacing:-0.01em; }
+  .sub { margin:6px 0 0; color:var(--muted); font-size:18px; max-width:1400px; }
+  .problem { margin-top:16px; padding:12px 16px; border-left:5px solid #b3412f; background:#fbefec; font-size:17px; max-width:1690px; }
+  .lanes { display:grid; grid-template-columns: 1fr 70px 1fr 70px 1fr; margin-top:22px; align-items:stretch; }
+  .lane { border:2px solid var(--line); border-radius:16px; padding:16px 16px 18px; background:#fff; position:relative; }
+  .lane h2 { margin:0 0 4px; font-size:22px; }
+  .lane .when { color:var(--muted); font-size:15px; margin-bottom:12px; }
+  .cap h2 { color:var(--cap); } .gov h2 { color:var(--gov); } .use h2 { color:var(--use); }
+  .cap { border-color:#9fd0ce; } .gov { border-color:#cdb8ee; } .use { border-color:#f0c79f; }
+  .box { border:1.5px solid var(--line); border-radius:10px; padding:10px 12px; font-size:16px; line-height:1.35; background:#fff; position:relative; }
+  .box b { display:block; font-size:16.5px; margin-bottom:2px; }
+  .box small { color:var(--muted); font-size:14px; display:block; }
+  .cap .box.key { border-color:var(--cap); background:#eef7f6; }
+  .gov .box.key { border-color:var(--gov); background:#f4effc; }
+  .use .box.key { border-color:var(--use); background:#fdf3ea; }
+  .down { text-align:center; color:#8a9593; font-size:22px; line-height:1; margin:5px 0; }
+  .side { display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-top:8px; }
+  .side .box { font-size:14.5px; border-style:dashed; }
+  .arrow { display:flex; align-items:center; justify-content:center; font-size:40px; color:#8a9593; }
+  .n { position:absolute; top:-12px; right:-12px; width:30px; height:30px; border-radius:50%; background:var(--ink); color:#fff; font-weight:700; font-size:16px; display:flex; align-items:center; justify-content:center; box-shadow:0 0 0 3px var(--bg); }
+  .loop { margin-top:16px; display:flex; align-items:center; gap:12px; font-size:16.5px; color:var(--muted); }
+  .loop .bar { flex:1; height:3px; background:repeating-linear-gradient(90deg,#8a9593 0 12px, transparent 12px 20px); }
+  .bottom { display:grid; grid-template-columns: 1.15fr 1fr; gap:16px; margin-top:16px; }
+  .ledger { border:2px solid var(--ink); border-radius:12px; padding:12px 16px; background:#fff; position:relative; font-size:16px; }
+  .ledger b { font-size:17px; }
+  .legend { border:1.5px solid var(--line); border-radius:12px; padding:10px 14px; background:#fff; font-size:14.5px; columns:2; column-gap:20px; }
+  .legend div { break-inside:avoid; margin:0 0 5px; }
+  .legend span { display:inline-flex; width:22px; height:22px; border-radius:50%; background:var(--ink); color:#fff; font-weight:700; font-size:13px; align-items:center; justify-content:center; margin-right:6px; }
+  .mono { font-family: Consolas, monospace; font-size:14px; }
+</style>
+</head>
+<body>
+<div class="page">
+  <h1>Debrief to Duty · solution diagram</h1>
+  <p class="sub">An intelligence pill for data hall cooling loss, captured from operators' own incident reviews, approved by a person, and applied by duty teams during the next incident.</p>
+  <div class="problem"><b>①&nbsp; Business problem.</b> Know-how for the first hour of a cooling loss does not travel between sites, years or companies. Microsoft lost a hall to the same failure pattern in Texas (2018) and Sydney (2023); the 2023 Singapore cooling incident left 2.5 million payment and ATM transactions failed.</div>
+
+  <div class="lanes">
+    <div class="lane cap">
+      <h2>Capture</h2><div class="when">after an incident, from the people who solved it</div>
+      <div class="box key"><span class="n">2</span><b>Incident review or debrief</b><small>written by the operator's own engineers; split into numbered sentences; source hash recorded</small></div>
+      <div class="down">↓</div>
+      <div class="box"><b>Capture model proposes changes</b><small>add rule · amend rule · add guardrail · ask an expert; every claim cites sentence ids</small></div>
+      <div class="down">↓</div>
+      <div class="box key"><span class="n">5</span><b>Deterministic checks</b><small>cited sentence exists · every number is in the cited sentence · amended rule exists. Failures are listed, never repaired by guessing</small></div>
+      <div class="down">↓</div>
+      <div class="box key"><span class="n">3</span><b>Proposed pill version</b><small>YAML file: when / then / why / escalate, guardrails, open questions, evidence; semver</small></div>
+      <div class="side">
+        <div class="box"><b>Questions for an expert</b>where the review is silent: a threshold, a time limit, who decides</div>
+        <div class="box"><b>Blocked changes</b>shown to the reviewer with the reason</div>
+      </div>
+    </div>
+    <div class="arrow">→</div>
+    <div class="lane gov">
+      <h2>Govern</h2><div class="when">before anything answers a duty team</div>
+      <div class="box key"><span class="n">6</span><b>Regression gate</b><small>re-triage every earlier incident with the proposed version and compare with the version released now; drops are flagged</small></div>
+      <div class="down">↓</div>
+      <div class="box key"><b>Approver: a person, not the proposer</b><small>sees the changes, their sources, the flags and the open questions; approves or rejects (roles in <span class="mono">governance/access.yaml</span>)</small></div>
+      <div class="down">↓</div>
+      <div class="box"><b>Released version, effective date</b><small>the previous version becomes superseded; nothing is deleted</small></div>
+      <div class="side">
+        <div class="box"><b>Rejected</b>kept, with the reason</div>
+        <div class="box"><b>Rollback</b>a new version with the old content, like <span class="mono">git revert</span></div>
+      </div>
+    </div>
+    <div class="arrow">→</div>
+    <div class="lane use">
+      <h2>Use</h2><div class="when">during the next incident, at any site</div>
+      <div class="box"><b>First-hour signals</b><small>alarm feed or duty notes: free text with minutes since the first one</small></div>
+      <div class="down">↓</div>
+      <div class="box key"><span class="n">4</span><b>Duty assistant, released pill only</b><small>recurring or novel · actions, each naming its rule · what is not covered · escalate now, to whom. Recommends; never executes</small></div>
+      <div class="down">↓</div>
+      <div class="box key"><b>Asset Operations Manager supervises</b><small>every action links to its rule, every rule to the review sentence; asks questions and gets answers only from approved rules, with what is <i>not</i> in the pill said plainly</small></div>
+      <div class="down">↓</div>
+      <div class="box"><b>Outcome and the next review</b><small>graded against what the triage said; what was missed becomes the next capture</small></div>
+    </div>
+  </div>
+
+  <div class="loop"><span>↺ the next incident's review feeds Capture again: six incidents, versions 1.0.0 → 1.5.0, 15 rules, 11 guardrails, 14 questions</span><div class="bar"></div></div>
+
+  <div class="bottom">
+    <div class="ledger"><span class="n">7</span><b>Plain files the company owns</b> · pills, cases, proposals, runs and the ledger are YAML/JSON in git with published JSON Schema; no vendor or model inside. One model adapter, two vendors (DeepSeek, Tencent Cloud Hunyuan). <b>Hash-chained ledger</b>: every propose, release, reject, rollback and triage; editing any past event breaks the chain. One pill per domain and asset type, same engine for energy, lifts or leasing.
+      <div style="margin-top:8px"><span class="n" style="position:static;display:inline-flex;margin-right:8px">8</span><b>Path to implementation:</b> runs today; next, live BMS/DCIM alarms into triage, capture on each new internal review, roles mapped to SSO groups, pills and ledger in the company's own git.</div>
+    </div>
+    <div class="legend">
+      <div><span>1</span>the business problem</div>
+      <div><span>2</span>whose expertise; undocumented knowledge</div>
+      <div><span>3</span>reusable, not a one-off answer</div>
+      <div><span>4</span>how the manager uses, supervises, escalates</div>
+      <div><span>5</span>why more than a chatbot or retrieval</div>
+      <div><span>6</span>feedback reviewed, versioned, approved</div>
+      <div><span>7</span>extending to assets, units, enterprises</div>
+      <div><span>8</span>credible path to implementation</div>
+    </div>
+  </div>
+</div>
+</body>
+</html>
