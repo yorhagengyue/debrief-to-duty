@@ -1,0 +1,66 @@
+{
+  "triage": {
+    "case_id": "EQX-SIN-2023",
+    "pill": "dc-cooling-loss",
+    "pill_version": "1.5.0",
+    "classification": "partly_recurring",
+    "matched_rules": [
+      {
+        "rule_id": "R-015",
+        "because": "A planned system upgrade is in progress and the signals show server temperatures rising above optimal, which is consistent with a contractor control action affecting cooling equipment such as closing chilled-water buffer tank valves.",
+        "signals": [
+          "EQX-SIN-2023:S7",
+          "EQX-SIN-2023:S5"
+        ]
+      }
+    ],
+    "next_actions": [
+      {
+        "action": "Verify that contractor-issued signals cannot close valves on chilled-water buffer tanks or otherwise isolate the chilled-water loop; confirm the actual valve position on the buffer tanks directly, not only from the control system indication; if valves have been closed, treat the chilled-water loop as losing its buffer and act to restore flow before temperatures rise.",
+        "rule_id": "R-015"
+      }
+    ],
+    "escalate": {
+      "now": true,
+      "to": "facility operations lead and cooling plant engineer",
+      "reason": "Contractor control action during an upgrade is suspected to have changed the state of chilled-water buffer tank valves, and server temperatures are already rising above optimal operating conditions."
+    },
+    "not_covered": [
+      "No rule addresses a planned system upgrade with rising server temperatures when the specific cause (e.g., contractor valve closure) is not yet confirmed; R-015 requires confirmation of contractor control action affecting buffer tank valves, which is not yet established."
+    ]
+  },
+  "removed": [],
+  "evaluation": {
+    "case_id": "EQX-SIN-2023",
+    "pill_version": "1.5.0",
+    "per_finding": [
+      {
+        "finding": "F1",
+        "anticipated": "yes",
+        "by": [
+          "R-015"
+        ],
+        "note": "R-015 explicitly names contractor control action closing chilled-water buffer tank valves during a planned upgrade as the suspected cause."
+      },
+      {
+        "finding": "F2",
+        "anticipated": "no",
+        "by": [],
+        "note": "The triage does not mention failed access attempts or unsuccessful payment/ATM transactions."
+      },
+      {
+        "finding": "F3",
+        "anticipated": "no",
+        "by": [],
+        "note": "The triage does not address backup data center reachability or network misconfiguration."
+      },
+      {
+        "finding": "F4",
+        "anticipated": "no",
+        "by": [],
+        "note": "The triage does not reference MAS downtime limits or regulatory thresholds."
+      }
+    ]
+  },
+  "score": 0.25
+}

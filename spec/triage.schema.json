@@ -1,0 +1,106 @@
+{
+  "$id": "https://github.com/yorhagengyue/debrief-to-duty/blob/main/spec/triage.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "case_id": {
+      "type": "string"
+    },
+    "pill": {
+      "type": "string"
+    },
+    "pill_version": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "classification": {
+      "type": "string",
+      "enum": [
+        "recurring",
+        "partly_recurring",
+        "novel"
+      ]
+    },
+    "matched_rules": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "rule_id": {
+            "type": "string"
+          },
+          "because": {
+            "type": "string"
+          },
+          "signals": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "^[A-Z0-9-]+:S\\d+$"
+            }
+          }
+        },
+        "required": [
+          "rule_id",
+          "because",
+          "signals"
+        ]
+      }
+    },
+    "next_actions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "action": {
+            "type": "string"
+          },
+          "rule_id": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "action",
+          "rule_id"
+        ]
+      }
+    },
+    "escalate": {
+      "type": "object",
+      "properties": {
+        "now": {
+          "type": "boolean"
+        },
+        "to": {
+          "type": "string"
+        },
+        "reason": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "now",
+        "to",
+        "reason"
+      ]
+    },
+    "not_covered": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "required": [
+    "case_id",
+    "pill",
+    "pill_version",
+    "classification",
+    "matched_rules",
+    "next_actions",
+    "escalate",
+    "not_covered"
+  ]
+}

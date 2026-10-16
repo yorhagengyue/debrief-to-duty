@@ -1,0 +1,122 @@
+{
+  "triage": {
+    "case_id": "GCP-LDN-2022",
+    "pill": "dc-cooling-loss",
+    "pill_version": "1.4.0",
+    "classification": "partly_recurring",
+    "matched_rules": [
+      {
+        "rule_id": "R-005",
+        "because": "Two cooling systems in one data center failed simultaneously while outside temperatures were extraordinarily high, matching the rule's conditions for treating redundant cooling failure as a single-point-of-failure event.",
+        "signals": [
+          "GCP-LDN-2022:S34",
+          "GCP-LDN-2022:S30"
+        ]
+      },
+      {
+        "rule_id": "R-002",
+        "because": "With mechanical cooling affected and no confirmation yet that it is running, the site must be treated as running on a load-dependent thermal buffer and action taken before automated shutdowns begin.",
+        "signals": [
+          "GCP-LDN-2022:S34",
+          "GCP-LDN-2022:S35"
+        ]
+      },
+      {
+        "rule_id": "R-006",
+        "because": "Cooling capacity is in question and temperatures are at risk of exceeding safe operating thresholds, so progressive thermal load reduction should be considered before full shutdown.",
+        "signals": [
+          "GCP-LDN-2022:S34",
+          "GCP-LDN-2022:S30"
+        ]
+      },
+      {
+        "rule_id": "R-014",
+        "because": "Multiple cooling systems are affected and manual intervention may be required, so extra technicians should be staged before attempting manual restarts.",
+        "signals": [
+          "GCP-LDN-2022:S34",
+          "GCP-LDN-2022:S35"
+        ]
+      }
+    ],
+    "next_actions": [
+      {
+        "action": "Immediately verify whether mechanical cooling systems are still running and assess whether the data center can maintain a safe operating temperature; if not, plan to power down servers to prevent a longer outage or damage.",
+        "rule_id": "R-005"
+      },
+      {
+        "action": "Treat the thermal buffer as finite and act before it is depleted; expect automated device shutdown once safe thresholds are exceeded.",
+        "rule_id": "R-002"
+      },
+      {
+        "action": "Progressively decrease thermal load, considering termination of non-critical workloads such as Preemptible VMs, before resorting to full server shutdown.",
+        "rule_id": "R-006"
+      },
+      {
+        "action": "Increase technician staffing at the datacenter so manual restart procedures can be executed promptly and in parallel across data halls.",
+        "rule_id": "R-014"
+      }
+    ],
+    "escalate": {
+      "now": true,
+      "to": "incident commander",
+      "reason": "Simultaneous failure of redundant cooling systems combined with extraordinarily high outside temperatures means the data center may be unable to maintain a safe operating temperature, and thermal buffer depletion or automated shutdowns may be imminent."
+    },
+    "not_covered": [
+      "No rule addresses the specific cause of the cooling-system issue (e.g., water/air ingress, chiller cluster binding, or control-system failover) because the first-hour signals do not yet identify the failure mechanism.",
+      "No rule covers the initial alerting and investigation workflow itself; the pill assumes cooling loss is already confirmed or strongly suspected.",
+      "No rule addresses coordination with the utility provider or storm-related power quality beyond the voltage-swell scenario in R-001, which is not yet evidenced in the signals."
+    ]
+  },
+  "removed": [],
+  "evaluation": {
+    "case_id": "GCP-LDN-2022",
+    "pill_version": "1.4.0",
+    "per_finding": [
+      {
+        "finding": "F1",
+        "anticipated": "yes",
+        "by": [
+          "R-005"
+        ],
+        "note": "R-005 explicitly matches simultaneous failure of redundant cooling systems combined with extraordinarily high outside temperatures."
+      },
+      {
+        "finding": "F2",
+        "anticipated": "yes",
+        "by": [
+          "R-006"
+        ],
+        "note": "R-006 directs progressively decreasing thermal load, including termination of non-critical workloads such as Preemptible VMs."
+      },
+      {
+        "finding": "F3",
+        "anticipated": "yes",
+        "by": [
+          "R-005"
+        ],
+        "note": "R-005's next action includes planning to power down servers to prevent a longer outage or damage."
+      },
+      {
+        "finding": "F4",
+        "anticipated": "yes",
+        "by": [
+          "R-006"
+        ],
+        "note": "R-006 already applies the practice of progressively decreasing thermal load before full shutdown."
+      },
+      {
+        "finding": "F5",
+        "anticipated": "no",
+        "by": [],
+        "note": "No rule addresses auditing cooling system equipment and standards across data centers."
+      },
+      {
+        "finding": "F6",
+        "anticipated": "no",
+        "by": [],
+        "note": "No rule covers measuring or reporting the total duration of the cooling system failure impact."
+      }
+    ]
+  },
+  "score": 0.6666666666666666
+}

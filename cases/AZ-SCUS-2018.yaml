@@ -1,0 +1,28 @@
+id: AZ-SCUS-2018
+title: "Lightning-induced voltage swells shut down mechanical cooling (Azure South Central US, Texas)"
+t0: "2018-09-04T08:42:00Z"
+operator: Microsoft Azure
+site: "South Central US region, one datacenter (San Antonio area, Texas)"
+sources: [AZ-SCUS-2018]
+early_signals:
+  - { t_plus_min: 0, sentence: "AZ-SCUS-2018:S7" }
+  - { t_plus_min: 0, sentence: "AZ-SCUS-2018:S8" }
+  - { t_plus_min: 0, sentence: "AZ-SCUS-2018:S9" }
+  - { t_plus_min: 0, sentence: "AZ-SCUS-2018:S10" }
+  - { t_plus_min: 47, sentence: "AZ-SCUS-2018:S25" }
+debrief:
+  [AZ-SCUS-2018:S5, AZ-SCUS-2018:S6, AZ-SCUS-2018:S7, AZ-SCUS-2018:S8, AZ-SCUS-2018:S9, AZ-SCUS-2018:S10, AZ-SCUS-2018:S11,
+   AZ-SCUS-2018:S12, AZ-SCUS-2018:S13, AZ-SCUS-2018:S14, AZ-SCUS-2018:S21, AZ-SCUS-2018:S25, AZ-SCUS-2018:S80,
+   AZ-SCUS-2018:S81, AZ-SCUS-2018:S84, AZ-SCUS-2018:S85]
+findings:
+  - { id: F1, kind: root_cause, sentence: "AZ-SCUS-2018:S9" }
+  - { id: F2, kind: contributing_factor, sentence: "AZ-SCUS-2018:S11" }
+  - { id: F3, kind: contributing_factor, sentence: "AZ-SCUS-2018:S12" }
+  - { id: F4, kind: response, sentence: "AZ-SCUS-2018:S14" }
+  - { id: F5, kind: impact, sentence: "AZ-SCUS-2018:S13" }
+  - { id: F6, kind: remediation, sentence: "AZ-SCUS-2018:S81" }
+  - { id: F7, kind: remediation, sentence: "AZ-SCUS-2018:S84" }
+curation_note: >
+  Early signals are what the review says happened at the facility before customer impact (08:42 to 09:29 UTC).
+  Debrief and findings keep the facility part of the review; the sections on cloud services outside the region
+  (Service Manager, Active Directory, VSTS, status page, subscriptions) are left out because they are not facility know-how.

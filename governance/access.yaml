@@ -1,0 +1,21 @@
+# Who may do what with a pill. The CLI checks this before anything is written to a pill file or the ledger.
+# Names below are role-played in the replay; a real deployment maps them to the company directory (SSO groups).
+roles:
+  Capture: [propose]
+  Approver: [approve, reject, rollback, preview]
+  Owner: [propose, approve, reject, rollback, preview]
+  Duty: [triage]
+  Manager: [ask]
+people:
+  - { name: "capture", roles: [Capture] }
+  - { name: "Head of Critical Facilities (role-played)", roles: [Approver] }
+  - { name: "Critical Facilities Engineering Lead (role-played)", roles: [Owner] }
+  - { name: "duty assistant", roles: [Duty] }
+  - { name: "Asset Operations Manager (role-played)", roles: [Manager] }
+policy:
+  # The person who proposed a version may not approve it.
+  separation_of_duties: true
+  # Duty teams and managers only ever get answers from released versions; a proposed version can be previewed only by
+  # a role with the `preview` action above.
+  # Sentences from secondary sources may support a rule, but the rule is marked so the approver sees it.
+  flag_secondary_evidence: true

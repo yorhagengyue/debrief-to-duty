@@ -1,0 +1,37 @@
+{
+  "case_id": "EQX-SIN-2023",
+  "pill": "dc-cooling-loss",
+  "pill_version": "1.4.0",
+  "classification": "partly_recurring",
+  "matched_rules": [
+    {
+      "rule_id": "R-002",
+      "because": "Server temperatures are rising above optimal operating conditions during a planned system upgrade, indicating the datacenter is approaching safe operational thresholds and the thermal buffer may be depleting.",
+      "signals": [
+        "EQX-SIN-2023:S5",
+        "EQX-SIN-2023:S7"
+      ]
+    }
+  ],
+  "next_actions": [
+    {
+      "action": "Treat the thermal buffer as a finite resource and act before it is depleted; expect that once the buffer is gone, temperature will exceed safe operational thresholds and automated device shutdown will begin; recognize that in parts of the datacenter temperature can rise so quickly that hardware is damaged before it can shut down.",
+      "rule_id": "R-002"
+    }
+  ],
+  "escalate": {
+    "now": true,
+    "to": "incident commander",
+    "reason": "Thermal buffer depletion is imminent or automated shutdowns have started, as server temperatures rise above optimal operating conditions during a planned system upgrade."
+  },
+  "not_covered": [
+    "The planned system upgrade itself and its potential role in causing or exacerbating the cooling issue is not addressed by any rule."
+  ],
+  "removed_by_checks": [],
+  "llm": {
+    "provider": "deepseek",
+    "model": "deepseek-chat",
+    "key": "943b288685fca21429cb8268",
+    "replayed": true
+  }
+}

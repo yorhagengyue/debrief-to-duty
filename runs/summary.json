@@ -1,0 +1,56 @@
+[
+  {
+    "case_id": "AZ-SCUS-2018",
+    "pill_version": null,
+    "classification": "novel",
+    "score": 0,
+    "proposed": "1.0.0",
+    "accepted_changes": 7,
+    "rejected_changes": 0
+  },
+  {
+    "case_id": "AWS-NRT-2019",
+    "pill_version": "1.0.0",
+    "classification": "partly_recurring",
+    "score": 0.2777777777777778,
+    "proposed": "1.1.0",
+    "accepted_changes": 8,
+    "rejected_changes": 0
+  },
+  {
+    "case_id": "GCP-LDN-2022",
+    "pill_version": "1.1.0",
+    "classification": "partly_recurring",
+    "score": 0.08333333333333333,
+    "proposed": "1.2.0",
+    "accepted_changes": 5,
+    "rejected_changes": 0
+  },
+  {
+    "case_id": "ALI-HKG-2022",
+    "pill_version": "1.2.0",
+    "classification": "partly_recurring",
+    "score": 0.2222222222222222,
+    "proposed": "1.3.0",
+    "accepted_changes": 7,
+    "rejected_changes": 0
+  },
+  {
+    "case_id": "AZ-AUE-2023",
+    "pill_version": "1.3.0",
+    "classification": "partly_recurring",
+    "score": 0.22727272727272727,
+    "proposed": "1.4.0",
+    "accepted_changes": 8,
+    "rejected_changes": 0
+  },
+  {
+    "case_id": "EQX-SIN-2023",
+    "pill_version": "1.4.0",
+    "classification": "partly_recurring",
+    "score": 0.125,
+    "proposed": "1.5.0",
+    "accepted_changes": 5,
+    "rejected_changes": 0
+  }
+]

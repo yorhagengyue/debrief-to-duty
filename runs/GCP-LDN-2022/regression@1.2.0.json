@@ -1,0 +1,86 @@
+{
+  "triage": {
+    "case_id": "GCP-LDN-2022",
+    "pill": "dc-cooling-loss",
+    "pill_version": "1.2.0",
+    "classification": "partly_recurring",
+    "matched_rules": [
+      {
+        "rule_id": "R-005",
+        "because": "Signals show simultaneous failure of two cooling systems (redundant) and extraordinarily high outside temperatures, matching the 'when' conditions.",
+        "signals": [
+          "GCP-LDN-2022:S34",
+          "GCP-LDN-2022:S30"
+        ]
+      }
+    ],
+    "next_actions": [
+      {
+        "action": "Immediately assess whether the data center can maintain a safe operating temperature.",
+        "rule_id": "R-005"
+      },
+      {
+        "action": "If safe temperature cannot be maintained, plan to power down servers to prevent an even longer outage or damage to machines.",
+        "rule_id": "R-005"
+      }
+    ],
+    "escalate": {
+      "now": true,
+      "to": "incident commander",
+      "reason": "Simultaneous failure of redundant cooling systems and rising temperatures (R-005 escalation trigger)."
+    },
+    "not_covered": [
+      "No rule addresses the specific scenario of two cooling systems failing simultaneously without concurrent utility voltage swells or generator transfers.",
+      "No rule covers the initial alerting and investigation phase before cooling status is confirmed.",
+      "No rule provides guidance on assessing mitigations when cooling systems have failed but thermal buffer status is unknown."
+    ]
+  },
+  "removed": [],
+  "evaluation": {
+    "case_id": "GCP-LDN-2022",
+    "pill_version": "1.2.0",
+    "per_finding": [
+      {
+        "finding": "F1",
+        "anticipated": "yes",
+        "by": [
+          "R-005"
+        ],
+        "note": "R-005 matches simultaneous redundant cooling failure plus extreme heat and directs assessing safe operating temperature."
+      },
+      {
+        "finding": "F2",
+        "anticipated": "no",
+        "by": [],
+        "note": "Triage does not mention terminating PVMs or reducing thermal load via workload termination."
+      },
+      {
+        "finding": "F3",
+        "anticipated": "yes",
+        "by": [
+          "R-005"
+        ],
+        "note": "R-005 next action explicitly plans powering down servers if safe temperature cannot be maintained."
+      },
+      {
+        "finding": "F4",
+        "anticipated": "no",
+        "by": [],
+        "note": "Triage contains no remediation practice for progressively decreasing thermal load."
+      },
+      {
+        "finding": "F5",
+        "anticipated": "no",
+        "by": [],
+        "note": "Triage does not call for a global cooling system equipment audit."
+      },
+      {
+        "finding": "F6",
+        "anticipated": "no",
+        "by": [],
+        "note": "Triage does not address measuring or reporting the duration of cooling failure impact."
+      }
+    ]
+  },
+  "score": 0.3333333333333333
+}

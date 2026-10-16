@@ -1,0 +1,60 @@
+pill: dc-cooling-loss@1.2.0
+base: 1.1.0
+from_case: GCP-LDN-2022
+focus_findings:
+  - F1
+  - F2
+  - F3
+  - F4
+  - F5
+  - F6
+accepted:
+  - op: add_rule
+    title: Treat simultaneous failure of redundant cooling systems as a single-point-of-failure event
+    when:
+      - multiple cooling systems that are supposed to be redundant have failed at the same time
+      - outside temperatures are extraordinarily high
+    then:
+      - do not assume that remaining cooling capacity is sufficient; treat the data center as unable to maintain a safe operating temperature
+      - immediately assess whether the data center can maintain a safe operating temperature
+      - if not, plan to power down servers to prevent an even longer outage or damage to machines
+    why: The review states that one data center could not maintain a safe operating temperature due to a simultaneous failure of multiple, redundant cooling systems combined with extraordinarily high outside temperatures, and that powering down was done to prevent an even longer outage or damage.
+    escalate:
+      to: incident commander
+      trigger: simultaneous failure of redundant cooling systems and rising temperatures
+    evidence:
+      - GCP-LDN-2022:S30
+      - GCP-LDN-2022:S31
+  - op: add_rule
+    title: Use progressive thermal load reduction before full shutdown
+    when:
+      - data center temperatures are increasing and cooling capacity is insufficient
+      - the data center is at risk of exceeding safe operating temperatures
+    then:
+      - progressively decrease the thermal load within the data center space
+      - consider terminating non-critical workloads such as Preemptible VMs to reduce thermal load and ensure space for zonal failover activities
+      - if thermal load reduction is insufficient, power down servers to prevent an even longer outage and further impact to infrastructure
+    why: The review describes terminating 42% of Preemptible VMs to reduce thermal load and ensure space for zonal failover, and later powering down servers to prevent a longer outage; it also commits to investigating more advanced methods to progressively decrease thermal load to reduce the probability of full shutdown.
+    escalate:
+      to: incident commander
+      trigger: temperatures continue to rise despite initial load reduction
+    evidence:
+      - GCP-LDN-2022:S52
+      - GCP-LDN-2022:S36
+      - GCP-LDN-2022:S42
+  - op: add_guardrail
+    text: Do not assume that redundant cooling systems provide protection against simultaneous failure, especially during extraordinarily high outside temperatures; the review records that multiple redundant cooling systems failed simultaneously and the data center could not maintain a safe operating temperature.
+    evidence:
+      - GCP-LDN-2022:S30
+  - op: ask_expert
+    question: What specific outside temperature threshold or combination of conditions should trigger preemptive thermal load reduction or shutdown planning when redundant cooling systems are compromised?
+    why: The review cites extraordinarily high outside temperatures as a contributing factor but does not specify a threshold; without this, the pill cannot guide when to act before a full shutdown is required.
+  - op: ask_expert
+    question: What are the criteria and decision process for progressively decreasing thermal load within a data center space, including which workloads to curtail and in what order?
+    why: The review commits to investigating more advanced methods but does not provide operational details; the pill needs expert guidance to implement progressive load reduction safely and effectively.
+rejected_by_checks: []
+llm:
+  provider: deepseek
+  model: deepseek-chat
+  key: 2c4ef6dd8505bc2bc14d7ead
+  replayed: true

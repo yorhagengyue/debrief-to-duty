@@ -1,0 +1,20 @@
+[
+  {
+    "case_id": "AZ-SCUS-2018",
+    "blind_version": null,
+    "blind": 0,
+    "base_version": "1.0.0",
+    "base": 0.6428571428571429,
+    "candidate": 0.6428571428571429,
+    "regressed": false
+  },
+  {
+    "case_id": "AWS-NRT-2019",
+    "blind_version": "1.0.0",
+    "blind": 0.2777777777777778,
+    "base_version": "1.0.0",
+    "base": 0.2777777777777778,
+    "candidate": 0.6111111111111112,
+    "regressed": false
+  }
+]

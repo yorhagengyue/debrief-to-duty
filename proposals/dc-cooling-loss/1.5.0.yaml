@@ -1,0 +1,44 @@
+pill: dc-cooling-loss@1.5.0
+base: 1.4.0
+from_case: EQX-SIN-2023
+focus_findings:
+  - F1
+  - F2
+  - F3
+  - F4
+accepted:
+  - op: add_rule
+    title: Treat contractor control actions during upgrades as a cooling-availability threat
+    when:
+      - a planned system upgrade is in progress and a contractor is sending control signals to cooling equipment
+      - the cooling plant includes chilled-water buffer tanks with valves that can be commanded closed
+    then:
+      - verify that contractor-issued signals cannot close valves on chilled-water buffer tanks or otherwise isolate the chilled-water loop
+      - confirm the actual valve position on the buffer tanks directly, not only from the control system indication
+      - if valves have been closed, treat the chilled-water loop as losing its buffer and act to restore flow before temperatures rise
+    why: The review states the overheating was caused by a contractor sending an incorrect signal to close the valves from the chilled water buffer tanks during a planned system upgrade.
+    escalate:
+      to: facility operations lead and cooling plant engineer
+      trigger: contractor control action during an upgrade is confirmed to have changed the state of chilled-water buffer tank valves
+    evidence:
+      - EQX-SIN-2023:S7
+  - op: add_guardrail
+    text: Do not assume that backup plans for a cooling failure will work; the review records that the backup plans prepared for this kind of situation turned out to be absolutely worthless.
+    evidence:
+      - EQX-SIN-2023:S8
+  - op: add_guardrail
+    text: Do not treat a backup data center as reachable without confirming the network path; the review records that one bank could not reach its backup data center because of a network misconfiguration and another had unspecified connectivity issues.
+    evidence:
+      - EQX-SIN-2023:S9
+  - op: ask_expert
+    question: What is the maximum unscheduled downtime that the facility's cooling and power design can tolerate for critical banking systems, and how should the duty team measure and report against the MAS limit of four hours in a 12-month period?
+    why: The review states that MAS dictates unscheduled downtime for critical banking systems should not exceed four hours within a 12-month period and that the October issue exceeded that limit, but the pill has no rule tying cooling-event decisions to that regulatory clock.
+  - op: ask_expert
+    question: What specific resilience requirements from the Monetary Authority of Singapore apply to the facility's cooling and power systems, and how should the duty team verify compliance during a cooling event?
+    why: The review states that the two financial institutions did not comply with MAS requirements related to resilience of critical IT systems, but the pill does not translate those requirements into facility checks.
+rejected_by_checks: []
+llm:
+  provider: deepseek
+  model: deepseek-chat
+  key: 3719230b77cd1a1cf79d7955
+  replayed: true

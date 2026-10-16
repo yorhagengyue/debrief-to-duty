@@ -1,0 +1,24 @@
+id: GCP-LDN-2022
+title: "Redundant cooling systems fail together during record heat (Google Cloud, London)"
+t0: "2022-07-19T13:33:00Z"
+operator: Google Cloud
+site: "europe-west2-a, one data center (London)"
+sources: [GCP-LDN-2022]
+early_signals:
+  - { t_plus_min: 0, sentence: "GCP-LDN-2022:S34" }
+  - { t_plus_min: 0, sentence: "GCP-LDN-2022:S30", excerpt: "extraordinarily high outside temperatures" }
+  - { t_plus_min: 29, sentence: "GCP-LDN-2022:S35" }
+debrief:
+  [GCP-LDN-2022:S3, GCP-LDN-2022:S16, GCP-LDN-2022:S28, GCP-LDN-2022:S30, GCP-LDN-2022:S31, GCP-LDN-2022:S34, GCP-LDN-2022:S35,
+   GCP-LDN-2022:S36, GCP-LDN-2022:S42, GCP-LDN-2022:S46, GCP-LDN-2022:S47, GCP-LDN-2022:S52]
+findings:
+  - { id: F1, kind: root_cause, sentence: "GCP-LDN-2022:S30" }
+  - { id: F2, kind: response, sentence: "GCP-LDN-2022:S52" }
+  - { id: F3, kind: response, sentence: "GCP-LDN-2022:S36" }
+  - { id: F4, kind: remediation, sentence: "GCP-LDN-2022:S42" }
+  - { id: F5, kind: remediation, sentence: "GCP-LDN-2022:S47" }
+  - { id: F6, kind: impact, sentence: "GCP-LDN-2022:S18" }
+curation_note: >
+  t0 is 06:33 US/Pacific (13:33 UTC), when engineers were alerted. The outside heat is given as a condition the team knew
+  that day (an excerpt of the root-cause sentence, without its conclusion). The first load reduction (08:06) is after the
+  first hour, so it is a finding, not a signal. Cloud product sections are left out.

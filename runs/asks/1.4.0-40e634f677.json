@@ -1,0 +1,19 @@
+{
+  "question": "What should we check before we let a contractor work on the chilled-water plant?",
+  "pill_version": "1.4.0",
+  "answer": "The pill does not contain a contractor-work-permit or pre-work checklist, so it cannot tell you what to check before a contractor works on the chilled-water plant. What it does give you are cooling-plant conditions that any work on that plant must not disturb, and that a manager should have verified before and during contractor activity: confirm mechanical cooling is actually running rather than assumed protected (R-001, G-001); confirm standby chillers draw from an independent water circuit before trusting failover, and notify the chiller manufacturer early if they share the active loop (R-007, G-007); confirm whether chillers are bound into a cluster, since individual restart will not work while bound (R-008); confirm each impacted data hall's running chiller count against its minimum requirement, counting standby separately (R-012); and treat the chilled-water loop temperature as the deadline, because once it is too hot the chiller self-protection mechanism inhibits restart (R-011). Also do not rely on the control system for cooling visibility during a control-system failure (G-004), and do not treat purge mode as a guaranteed fallback while PLCs may be unresponsive (G-003).",
+  "relies_on": [
+    "R-001",
+    "R-007",
+    "R-008",
+    "R-011",
+    "R-012",
+    "G-001",
+    "G-003",
+    "G-004",
+    "G-007"
+  ],
+  "not_in_pill": "No rule or guardrail covers contractor authorization, work permits, isolation/lockout procedures, or a pre-work checklist for the chilled-water plant.",
+  "decide_with": "pill owner (dc-cooling-loss@1.4.0)",
+  "removed_by_checks": []
+}

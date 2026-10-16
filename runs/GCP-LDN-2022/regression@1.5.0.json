@@ -1,0 +1,80 @@
+{
+  "triage": {
+    "case_id": "GCP-LDN-2022",
+    "pill": "dc-cooling-loss",
+    "pill_version": "1.5.0",
+    "classification": "partly_recurring",
+    "matched_rules": [
+      {
+        "rule_id": "R-005",
+        "because": "Two cooling systems failed simultaneously while outside temperatures were extraordinarily high, matching the rule's conditions.",
+        "signals": [
+          "GCP-LDN-2022:S34",
+          "GCP-LDN-2022:S30"
+        ]
+      }
+    ],
+    "next_actions": [
+      {
+        "action": "Immediately assess whether the data center can maintain a safe operating temperature; if not, plan to power down servers to prevent an even longer outage or damage to machines.",
+        "rule_id": "R-005"
+      }
+    ],
+    "escalate": {
+      "now": true,
+      "to": "incident commander",
+      "reason": "Simultaneous failure of redundant cooling systems and rising temperatures (R-005 trigger)."
+    },
+    "not_covered": [
+      "No rule addresses the specific scenario of two cooling systems failing while outside temperatures are extraordinarily high without additional signals such as voltage swells, control system failover, or chiller restart issues."
+    ]
+  },
+  "removed": [],
+  "evaluation": {
+    "case_id": "GCP-LDN-2022",
+    "pill_version": "1.5.0",
+    "per_finding": [
+      {
+        "finding": "F1",
+        "anticipated": "yes",
+        "by": [
+          "R-005"
+        ],
+        "note": "R-005 matches the simultaneous redundant cooling failure with extreme outside temperatures, the exact root cause."
+      },
+      {
+        "finding": "F2",
+        "anticipated": "no",
+        "by": [],
+        "note": "The triage does not mention terminating preemptible VMs or any specific load-reduction action."
+      },
+      {
+        "finding": "F3",
+        "anticipated": "yes",
+        "by": [
+          "R-005"
+        ],
+        "note": "R-005's next action explicitly directs powering down servers if safe temperature cannot be maintained."
+      },
+      {
+        "finding": "F4",
+        "anticipated": "no",
+        "by": [],
+        "note": "The triage does not call for investigating advanced thermal load reduction methods."
+      },
+      {
+        "finding": "F5",
+        "anticipated": "no",
+        "by": [],
+        "note": "The triage does not mention auditing cooling equipment or standards."
+      },
+      {
+        "finding": "F6",
+        "anticipated": "no",
+        "by": [],
+        "note": "The triage does not provide or track the duration of the cooling failure impact."
+      }
+    ]
+  },
+  "score": 0.3333333333333333
+}

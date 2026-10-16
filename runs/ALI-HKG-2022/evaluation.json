@@ -1,0 +1,74 @@
+{
+  "case_id": "ALI-HKG-2022",
+  "pill_version": "1.2.0",
+  "per_finding": [
+    {
+      "finding": "F1",
+      "anticipated": "no",
+      "by": [],
+      "note": "The triage does not mention air in the cooling system or lack of water as the root cause."
+    },
+    {
+      "finding": "F2",
+      "anticipated": "partly",
+      "by": [
+        "R-005"
+      ],
+      "note": "R-005 notes standby switchover did not take effect but does not identify the shared water circulation as the reason."
+    },
+    {
+      "finding": "F3",
+      "anticipated": "no",
+      "by": [],
+      "note": "The triage does not address the chillers being bound into a cluster preventing individual restart."
+    },
+    {
+      "finding": "F4",
+      "anticipated": "yes",
+      "by": [
+        "R-006"
+      ],
+      "note": "R-006 directs progressive thermal load reduction, including terminating non-critical workloads, matching the load reduction action."
+    },
+    {
+      "finding": "F5",
+      "anticipated": "no",
+      "by": [],
+      "note": "The triage does not mention manufacturer involvement or manual unbinding/restart of chillers."
+    },
+    {
+      "finding": "F6",
+      "anticipated": "no",
+      "by": [],
+      "note": "The triage does not mention the fire sprinkler system or water damage to equipment."
+    },
+    {
+      "finding": "F7",
+      "anticipated": "no",
+      "by": [],
+      "note": "The triage does not address ensuring automatic and manual failover effectiveness as a remediation."
+    },
+    {
+      "finding": "F8",
+      "anticipated": "partly",
+      "by": [
+        "R-005",
+        "R-006"
+      ],
+      "note": "The triage includes planning to power down servers but does not call for a standardized contingency plan with clarified shutdown criteria."
+    },
+    {
+      "finding": "F9",
+      "anticipated": "no",
+      "by": [],
+      "note": "The triage does not mention expanding monitoring scope or metrics."
+    }
+  ],
+  "score": 0.2222222222222222,
+  "llm": {
+    "provider": "deepseek",
+    "model": "deepseek-chat",
+    "key": "9050cc07e8dafb4d9b220f0b",
+    "replayed": true
+  }
+}

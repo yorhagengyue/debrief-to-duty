@@ -1,0 +1,63 @@
+- id: AZ-SCUS-2018
+  title: South Central US - Preliminary RCA (incident beginning 4 September 2018)
+  publisher: Microsoft Azure
+  url: https://azure.microsoft.com/en-us/status/history/
+  read_from: http://web.archive.org/web/20180911143420/https://azure.microsoft.com/en-us/status/history/
+  kind: primary
+  retrieved: 2026-10-16
+  section:
+    start: South Central US - Preliminary RCA
+    end: "Provide feedback: Please help us improve the Azure customer communications experience by taking our survey https://aka.ms/CPD-1PLG"
+  note: Preliminary review; Microsoft said a detailed analysis would follow. Read from the Internet Archive copy of the status history page.
+  sha256: 12030629834a0e06eeff917fb0137acb02df5d1dc9bd5334f546872c3dbbc71c
+- id: AZ-AUE-2023
+  title: Post Incident Review (PIR) - Services impacted after power/cooling issue - Australia East (Tracking ID VVTQ-J98)
+  publisher: Microsoft Azure
+  url: https://azure.status.microsoft/en-us/status/history/?trackingId=VVTQ-J98
+  kind: primary
+  retrieved: 2026-10-16
+  section:
+    start: Post Incident Review (PIR) - Services impacted after power/cooling issue - Australia East
+    end: How can customers make incidents like this less impactful?
+  sha256: 7a7754968d22e0c8bbed58d9b4934ee42473719b44ef3e569a971b117acec3c4
+- id: AWS-NRT-2019
+  title: Summary of the Amazon EC2 and Amazon EBS Service Event in the Tokyo (AP-NORTHEAST-1) Region (23 August 2019)
+  publisher: Amazon Web Services
+  url: https://aws.amazon.com/message/56489/
+  kind: primary
+  retrieved: 2026-10-16
+  section:
+    start: Summary of the Amazon EC2 and Amazon EBS Service Event in the Tokyo (AP-NORTHEAST-1) Region
+    end: During this event, EC2 instances and EBS volumes in other Availability Zones
+  sha256: 471f4f4ef5da7f96b2a0a598591f5ad8633b737d7105ad0d0ce29374a99f1f2f
+- id: GCP-LDN-2022
+  title: "Google Cloud incident report: europe-west2 cooling failure (19 July 2022)"
+  publisher: Google Cloud
+  url: https://status.cloud.google.com/incidents/fmEL9i2fArADKawkZAa2
+  kind: primary
+  retrieved: 2026-10-16
+  section:
+    start: Incident Report
+    end: A small number of VMs (approximately 0.6%
+  sha256: 2d55e6242103445f082db6b52713e9fcfc3e0916e76f0268d8d73c32f017e51a
+- id: ALI-HKG-2022
+  title: "[Resolved] Service Outage in Zone C of the China (Hong Kong) Region (18 December 2022)"
+  publisher: Alibaba Cloud
+  url: https://www.alibabacloud.com/en/notice/066572
+  kind: primary
+  retrieved: 2026-10-16
+  section:
+    start: We want to provide you with information about the major service disruption
+    end: 3. Failure to support customer operations like purchasing new ECS instances
+  sha256: 2e2d38af9f0a28d4e3c95f205362c7fef8882cfef561ba674e36225d1892493c
+- id: EQX-SIN-2023
+  title: Two Singapore banks unable to process transactions because of overheating (TechSpot, reporting Equinix's statement and a parliamentary reply)
+  publisher: TechSpot
+  url: https://www.techspot.com/news/100774-two-singapore-banks-unable-process-transactions-because-overheating.html
+  kind: secondary
+  retrieved: 2026-10-16
+  section:
+    start: On October 14, DBS and Citibank suffered an IT outage
+    end: // Related Stories
+  note: No public post-incident review from Equinix was found. Equinix's own explanation is quoted in this report; the figures come from a minister's reply in Parliament as reported here.
+  sha256: 3e9a025d1620cfde245f1952fb690e7ca2cb41a703dfca344f8ebf8ca5fca0fb

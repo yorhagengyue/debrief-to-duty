@@ -1,0 +1,11 @@
+[
+  {
+    "case_id": "AZ-SCUS-2018",
+    "blind_version": null,
+    "blind": 0,
+    "base_version": null,
+    "base": 0,
+    "candidate": 0.6428571428571429,
+    "regressed": false
+  }
+]

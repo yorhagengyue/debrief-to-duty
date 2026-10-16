@@ -1,0 +1,31 @@
+id: AWS-NRT-2019
+title: "Cooling control system fails during a host failover; cooling shuts down instead of going to maximum (AWS Tokyo)"
+t0: "2019-08-23T03:36:00Z"
+operator: Amazon Web Services
+site: "AP-NORTHEAST-1 (Tokyo), part of one Availability Zone"
+sources: [AWS-NRT-2019]
+early_signals:
+  - { t_plus_min: 0, sentence: "AWS-NRT-2019:S22" }
+  - { t_plus_min: 0, sentence: "AWS-NRT-2019:S26", excerpt: "in a small portion of the datacenter, the cooling system did not correctly transition to this safe cooling configuration and instead shut down" }
+  - { t_plus_min: 0, sentence: "AWS-NRT-2019:S28" }
+  - { t_plus_min: 0, sentence: "AWS-NRT-2019:S30" }
+  - { t_plus_min: 0, sentence: "AWS-NRT-2019:S3" }
+debrief:
+  [AWS-NRT-2019:S5, AWS-NRT-2019:S18, AWS-NRT-2019:S19, AWS-NRT-2019:S20, AWS-NRT-2019:S21, AWS-NRT-2019:S22, AWS-NRT-2019:S23,
+   AWS-NRT-2019:S24, AWS-NRT-2019:S25, AWS-NRT-2019:S26, AWS-NRT-2019:S27, AWS-NRT-2019:S28, AWS-NRT-2019:S29, AWS-NRT-2019:S30,
+   AWS-NRT-2019:S31, AWS-NRT-2019:S32, AWS-NRT-2019:S33, AWS-NRT-2019:S34, AWS-NRT-2019:S35, AWS-NRT-2019:S36, AWS-NRT-2019:S37,
+   AWS-NRT-2019:S38, AWS-NRT-2019:S39, AWS-NRT-2019:S40]
+findings:
+  - { id: F1, kind: root_cause, sentence: "AWS-NRT-2019:S24" }
+  - { id: F2, kind: contributing_factor, sentence: "AWS-NRT-2019:S26" }
+  - { id: F3, kind: contributing_factor, sentence: "AWS-NRT-2019:S34" }
+  - { id: F4, kind: contributing_factor, sentence: "AWS-NRT-2019:S30" }
+  - { id: F5, kind: response, sentence: "AWS-NRT-2019:S31" }
+  - { id: F6, kind: remediation, sentence: "AWS-NRT-2019:S37" }
+  - { id: F7, kind: remediation, sentence: "AWS-NRT-2019:S38" }
+  - { id: F8, kind: remediation, sentence: "AWS-NRT-2019:S39" }
+  - { id: F9, kind: impact, sentence: "AWS-NRT-2019:S10" }
+curation_note: >
+  The review gives no minute-by-minute timeline, so all early signals are set at t+0 in the order the review tells them,
+  ending with the first server shutdowns at 12:36 JST. The second signal shows only what the team could see (cooling in part
+  of the hall shut down), not the later explanation. EC2 API sections are left out.

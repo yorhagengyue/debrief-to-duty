@@ -1,0 +1,25 @@
+{
+  "name": "debrief-to-duty",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "pills": "tsx src/cli.ts",
+    "test": "vitest run",
+    "typecheck": "tsc --noEmit",
+    "schema": "tsx src/export-schema.ts",
+    "site": "tsx src/export-site.ts",
+    "scenario": "tsx src/cli.ts scenario SCN-SIN-01 --version 1.4.0 && tsx src/cli.ts scenario SCN-SIN-01 --version 1.5.0 --as \"Head of Critical Facilities (role-played)\" && tsx src/cli.ts ask --scenario SCN-SIN-01 --version 1.4.0 && tsx src/cli.ts ask --scenario SCN-SIN-01 --version 1.5.0 --as \"Head of Critical Facilities (role-played)\"",
+    "rebuild": "tsx src/cli.ts replay --fresh && npm run scenario && npm run site && tsx src/cli.ts verify"
+  },
+  "dependencies": {
+    "yaml": "^2.9.1",
+    "zod": "^4.6.7"
+  },
+  "devDependencies": {
+    "@types/node": "^22.20.5",
+    "tsx": "^4.23.15",
+    "typescript": "^5.9.3",
+    "vitest": "^3.2.7"
+  }
+}

@@ -1,0 +1,52 @@
+{
+  "case_id": "GCP-LDN-2022",
+  "pill_version": "1.1.0",
+  "per_finding": [
+    {
+      "finding": "F1",
+      "anticipated": "partly",
+      "by": [
+        "R-001",
+        "R-002"
+      ],
+      "note": "Triage points at a cooling-plant threat and multiple cooling systems failing, but does not name the simultaneous redundant-system failure plus extreme heat as the root cause."
+    },
+    {
+      "finding": "F2",
+      "anticipated": "no",
+      "by": [],
+      "note": "Nothing in the triage directs terminating PVMs or any load-shedding action to reduce thermal load."
+    },
+    {
+      "finding": "F3",
+      "anticipated": "no",
+      "by": [],
+      "note": "The triage never mentions powering down servers in the impacted data center."
+    },
+    {
+      "finding": "F4",
+      "anticipated": "no",
+      "by": [],
+      "note": "No rule calls for developing methods to progressively decrease thermal load within a single data center."
+    },
+    {
+      "finding": "F5",
+      "anticipated": "no",
+      "by": [],
+      "note": "The triage does not call for a global audit of cooling system equipment and standards."
+    },
+    {
+      "finding": "F6",
+      "anticipated": "no",
+      "by": [],
+      "note": "The triage gives no duration or impact measurement for the cooling failure."
+    }
+  ],
+  "score": 0.08333333333333333,
+  "llm": {
+    "provider": "deepseek",
+    "model": "deepseek-chat",
+    "key": "544579eb041e36212bccce27",
+    "replayed": true
+  }
+}

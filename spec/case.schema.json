@@ -1,0 +1,112 @@
+{
+  "$id": "https://github.com/yorhagengyue/debrief-to-duty/blob/main/spec/case.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^[A-Z0-9-]+$"
+    },
+    "title": {
+      "type": "string"
+    },
+    "t0": {
+      "type": "string",
+      "format": "date-time",
+      "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+    },
+    "operator": {
+      "type": "string"
+    },
+    "site": {
+      "type": "string"
+    },
+    "sources": {
+      "minItems": 1,
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "early_signals": {
+      "minItems": 1,
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "t_plus_min": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991
+          },
+          "sentence": {
+            "type": "string",
+            "pattern": "^[A-Z0-9-]+:S\\d+$"
+          },
+          "excerpt": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "t_plus_min",
+          "sentence"
+        ]
+      }
+    },
+    "debrief": {
+      "minItems": 1,
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^[A-Z0-9-]+:S\\d+$"
+      }
+    },
+    "findings": {
+      "minItems": 1,
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^F\\d+$"
+          },
+          "kind": {
+            "type": "string",
+            "enum": [
+              "root_cause",
+              "contributing_factor",
+              "response",
+              "remediation",
+              "impact"
+            ]
+          },
+          "sentence": {
+            "type": "string",
+            "pattern": "^[A-Z0-9-]+:S\\d+$"
+          }
+        },
+        "required": [
+          "id",
+          "kind",
+          "sentence"
+        ]
+      }
+    },
+    "curation_note": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "id",
+    "title",
+    "t0",
+    "operator",
+    "site",
+    "sources",
+    "early_signals",
+    "debrief",
+    "findings",
+    "curation_note"
+  ]
+}

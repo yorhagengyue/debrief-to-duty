@@ -1,0 +1,64 @@
+{
+  "case_id": "ALI-HKG-2022",
+  "pill": "dc-cooling-loss",
+  "pill_version": "1.2.0",
+  "classification": "partly_recurring",
+  "matched_rules": [
+    {
+      "rule_id": "R-005",
+      "because": "Multiple chillers (redundant cooling systems) failed simultaneously, and the standby switchover did not take effect, so the site cannot assume remaining cooling capacity is sufficient.",
+      "signals": [
+        "ALI-HKG-2022:S5",
+        "ALI-HKG-2022:S6",
+        "ALI-HKG-2022:S7"
+      ]
+    },
+    {
+      "rule_id": "R-002",
+      "because": "Mechanical cooling is down and temperatures are rising across multiple server rooms, so the datacenter is running on its load-dependent thermal buffer and the buffer must be treated as finite.",
+      "signals": [
+        "ALI-HKG-2022:S3",
+        "ALI-HKG-2022:S5",
+        "ALI-HKG-2022:S7"
+      ]
+    },
+    {
+      "rule_id": "R-006",
+      "because": "Temperatures are increasing and cooling capacity is insufficient, so progressive thermal load reduction should be used before full shutdown.",
+      "signals": [
+        "ALI-HKG-2022:S3",
+        "ALI-HKG-2022:S5",
+        "ALI-HKG-2022:S7"
+      ]
+    }
+  ],
+  "next_actions": [
+    {
+      "action": "Immediately assess whether the data center can maintain a safe operating temperature; if not, plan to power down servers to prevent an even longer outage or damage to machines.",
+      "rule_id": "R-005"
+    },
+    {
+      "action": "Treat the thermal buffer as a finite resource and act before it is depleted; expect automated device shutdown once safe thresholds are exceeded.",
+      "rule_id": "R-002"
+    },
+    {
+      "action": "Progressively decrease the thermal load within the data center space, considering termination of non-critical workloads such as Preemptible VMs; if insufficient, power down servers.",
+      "rule_id": "R-006"
+    }
+  ],
+  "escalate": {
+    "now": true,
+    "to": "incident commander",
+    "reason": "Simultaneous failure of redundant cooling systems with rising temperatures and risk of exceeding safe operating thresholds."
+  },
+  "not_covered": [
+    "Chiller manufacturer involvement and manual isolation/restoration of individual chillers are not addressed by any rule in the pill."
+  ],
+  "removed_by_checks": [],
+  "llm": {
+    "provider": "deepseek",
+    "model": "deepseek-chat",
+    "key": "8fb07a03713cf419f5e2ac77",
+    "replayed": true
+  }
+}

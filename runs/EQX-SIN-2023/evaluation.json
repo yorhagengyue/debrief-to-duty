@@ -1,0 +1,39 @@
+{
+  "case_id": "EQX-SIN-2023",
+  "pill_version": "1.4.0",
+  "per_finding": [
+    {
+      "finding": "F1",
+      "anticipated": "partly",
+      "by": [
+        "R-002"
+      ],
+      "note": "Triage points to the planned upgrade as the context and thermal buffer depletion, but does not name the contractor's incorrect valve-closing signal as the root cause."
+    },
+    {
+      "finding": "F2",
+      "anticipated": "no",
+      "by": [],
+      "note": "Triage contains no mention of failed access attempts or unsuccessful payment/ATM transaction volumes."
+    },
+    {
+      "finding": "F3",
+      "anticipated": "no",
+      "by": [],
+      "note": "Triage does not address backup datacenter reachability, network misconfiguration, or Citibank connectivity issues."
+    },
+    {
+      "finding": "F4",
+      "anticipated": "no",
+      "by": [],
+      "note": "Triage does not reference MAS downtime limits or the four-hour regulatory threshold."
+    }
+  ],
+  "score": 0.125,
+  "llm": {
+    "provider": "deepseek",
+    "model": "deepseek-chat",
+    "key": "3495e76312f15a0e175fcd21",
+    "replayed": true
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "case_id": "AZ-SCUS-2018",
+  "pill": "dc-cooling-loss",
+  "pill_version": null,
+  "classification": "novel",
+  "matched_rules": [],
+  "next_actions": [],
+  "escalate": {
+    "now": true,
+    "to": "Facility duty manager and the subject expert",
+    "reason": "No released pill covers this situation yet."
+  },
+  "not_covered": [
+    "No approved know-how exists for this situation; this incident becomes the first source for one."
+  ],
+  "removed_by_checks": []
+}

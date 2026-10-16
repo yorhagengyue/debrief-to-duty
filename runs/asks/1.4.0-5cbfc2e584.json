@@ -1,0 +1,14 @@
+{
+  "question": "What chilled-water temperature should trigger shedding IT load?",
+  "pill_version": "1.4.0",
+  "answer": "The pill does not give a chilled-water temperature that should trigger shedding IT load. It treats the chilled-water loop temperature as the deadline for chiller restart, not as a load-shedding trigger: once loop water reaches elevated temperatures the chiller self-protection mechanism inhibits restart, and if restart is inhibited the plan is to reduce thermal load so the loop can cool (R-011). Load reduction is instead triggered by rising data hall temperatures and insufficient cooling capacity (R-006), by a data hall falling below its minimum operational chiller count (R-012), and by chillers being blocked from restart by high loop temperature (R-013). The specific loop temperature threshold is an open question (Q-011), as is the maximum time a data hall can run below its minimum chiller count before shutdown (Q-012).",
+  "relies_on": [
+    "R-011",
+    "R-006",
+    "R-012",
+    "R-013"
+  ],
+  "not_in_pill": "No numeric chilled-water temperature trigger for shedding IT load is stated. Q-011 asks what loop temperature inhibits chiller restart and how quickly the loop reaches it; Q-012 asks the maximum time a data hall can run below its minimum operational chiller count before infrastructure must be shut down.",
+  "decide_with": "pill owner (dc-cooling-loss@1.4.0)",
+  "removed_by_checks": []
+}

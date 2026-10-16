@@ -1,0 +1,13 @@
+{
+  "question": "Our standby chillers are on the same loop as the running ones. Is that a problem?",
+  "pill_version": "1.5.0",
+  "answer": "Yes — the pill treats shared-loop standby chillers as a known failure mode, not a safe redundancy. R-007 says that when a cooling failure has occurred and the contingency plan calls for switching to standby chillers, and the standby chillers share a water circulation system with the active chillers, you must not assume the standby will take over: confirm the standby plant draws from an independent water circuit before relying on it. If it shares the same loop, treat the failover as likely to fail, move directly to auxiliary heat dissipation and ventilation measures, and notify the chiller manufacturer early rather than waiting for the failover to prove ineffective. The reason recorded is that air entered the cooling system due to lack of water and affected the active chillers, but the standby chillers used the same water circulation system, so the failover failed. G-007 reinforces this: do not assume automatic failover to standby cooling will work, and verify both automatic and manual failover effectiveness before relying on them. G-002 adds that onsite redundancies do not by themselves make customer workloads safe from a datacenter cooling failure. So the practical answer for you: same-loop standby is a problem to be verified and, if confirmed, planned around — not counted as protection.",
+  "relies_on": [
+    "R-007",
+    "G-007",
+    "G-002"
+  ],
+  "not_in_pill": "The pill does not state whether your specific standby chillers are on the same loop or an independent circuit — that must be confirmed on site. It also does not give the auxiliary heat dissipation and ventilation measures to use, nor the chiller manufacturer's contact or procedure.",
+  "decide_with": "facility operations lead and chiller manufacturer (per R-007 escalation); the pill owner should decide any change to the standby-cooling contingency plan.",
+  "removed_by_checks": []
+}

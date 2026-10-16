@@ -1,0 +1,283 @@
+{
+  "$id": "https://github.com/yorhagengyue/debrief-to-duty/blob/main/spec/pill.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z0-9-]+$"
+    },
+    "name": {
+      "type": "string"
+    },
+    "version": {
+      "type": "string",
+      "pattern": "^\\d+\\.\\d+\\.\\d+$"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "proposed",
+        "released",
+        "superseded",
+        "rejected",
+        "withdrawn"
+      ]
+    },
+    "effective_from": {
+      "type": "string",
+      "format": "date-time",
+      "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+    },
+    "owner": {
+      "type": "object",
+      "properties": {
+        "role": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "role_played": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "role",
+        "name",
+        "role_played"
+      ]
+    },
+    "scope": {
+      "type": "object",
+      "properties": {
+        "assets": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "not_for": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "required": [
+        "assets",
+        "not_for"
+      ]
+    },
+    "context": {
+      "type": "string"
+    },
+    "rules": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^R-\\d{3}$"
+          },
+          "title": {
+            "type": "string"
+          },
+          "when": {
+            "minItems": 1,
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "then": {
+            "minItems": 1,
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "why": {
+            "type": "string"
+          },
+          "escalate": {
+            "type": "object",
+            "properties": {
+              "to": {
+                "type": "string"
+              },
+              "trigger": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "to",
+              "trigger"
+            ]
+          },
+          "evidence": {
+            "minItems": 1,
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "^[A-Z0-9-]+:S\\d+$"
+            }
+          },
+          "learned_from": {
+            "minItems": 1,
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "since": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "title",
+          "when",
+          "then",
+          "why",
+          "evidence",
+          "learned_from",
+          "since"
+        ]
+      }
+    },
+    "guardrails": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^G-\\d{3}$"
+          },
+          "text": {
+            "type": "string"
+          },
+          "evidence": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "^[A-Z0-9-]+:S\\d+$"
+            }
+          },
+          "since": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "text",
+          "evidence",
+          "since"
+        ]
+      }
+    },
+    "open_questions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^Q-\\d{3}$"
+          },
+          "question": {
+            "type": "string"
+          },
+          "why": {
+            "type": "string"
+          },
+          "raised_by": {
+            "type": "string"
+          },
+          "since": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "question",
+          "why",
+          "raised_by",
+          "since"
+        ]
+      }
+    },
+    "regression_cases": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "approvals": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "by": {
+            "type": "string"
+          },
+          "role": {
+            "type": "string"
+          },
+          "role_played": {
+            "type": "boolean"
+          },
+          "at": {
+            "type": "string",
+            "format": "date-time",
+            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+          },
+          "decision": {
+            "type": "string",
+            "enum": [
+              "approve",
+              "reject"
+            ]
+          },
+          "note": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "by",
+          "role",
+          "role_played",
+          "at",
+          "decision",
+          "note"
+        ]
+      }
+    },
+    "supersedes": {
+      "type": "string"
+    },
+    "changelog": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "required": [
+    "id",
+    "name",
+    "version",
+    "status",
+    "owner",
+    "scope",
+    "context",
+    "rules",
+    "guardrails",
+    "open_questions",
+    "regression_cases",
+    "approvals",
+    "changelog"
+  ]
+}

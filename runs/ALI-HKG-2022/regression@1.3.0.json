@@ -1,0 +1,166 @@
+{
+  "triage": {
+    "case_id": "ALI-HKG-2022",
+    "pill": "dc-cooling-loss",
+    "pill_version": "1.3.0",
+    "classification": "partly_recurring",
+    "matched_rules": [
+      {
+        "rule_id": "R-007",
+        "because": "A cooling failure occurred and the contingency plan called for switching to standby chillers; the standby chillers shared the same water circulation system as the active chillers, so the failover failed.",
+        "signals": [
+          "ALI-HKG-2022:S5",
+          "ALI-HKG-2022:S6",
+          "ALI-HKG-2022:S7"
+        ]
+      },
+      {
+        "rule_id": "R-008",
+        "because": "Chillers were recirculated and gas discharged but would not restart; the site's chillers are configured as a bound cluster, so individual restart will not work.",
+        "signals": [
+          "ALI-HKG-2022:S9",
+          "ALI-HKG-2022:S10"
+        ]
+      },
+      {
+        "rule_id": "R-002",
+        "because": "Mechanical cooling is down and the datacenter is running on its load-dependent thermal buffer; datacenter temperature is approaching safe operational thresholds.",
+        "signals": [
+          "ALI-HKG-2022:S3",
+          "ALI-HKG-2022:S5",
+          "ALI-HKG-2022:S7",
+          "ALI-HKG-2022:S10"
+        ]
+      },
+      {
+        "rule_id": "R-006",
+        "because": "Data center temperatures are increasing and cooling capacity is insufficient; the data center is at risk of exceeding safe operating temperatures.",
+        "signals": [
+          "ALI-HKG-2022:S3",
+          "ALI-HKG-2022:S5",
+          "ALI-HKG-2022:S7",
+          "ALI-HKG-2022:S10"
+        ]
+      },
+      {
+        "rule_id": "R-009",
+        "because": "Cooling system has failed and server room temperatures are rising uncontrollably; temperatures are approaching the level that could trigger the fire sprinkler system.",
+        "signals": [
+          "ALI-HKG-2022:S3",
+          "ALI-HKG-2022:S5",
+          "ALI-HKG-2022:S7",
+          "ALI-HKG-2022:S10"
+        ]
+      }
+    ],
+    "next_actions": [
+      {
+        "action": "Do not assume standby chillers will take over; confirm the standby plant draws from an independent water circuit before relying on it. If the standby shares the same water loop, treat the failover as likely to fail and move directly to auxiliary heat dissipation and ventilation measures. Notify the chiller manufacturer early rather than waiting for the failover to prove ineffective.",
+        "rule_id": "R-007"
+      },
+      {
+        "action": "Recognize that individual chiller restart will not work while the chillers remain bound into a cluster. Plan to manually modify chiller configurations to unbind them from the cluster so each can be restarted individually. Expect that restarting chillers one after another will slow restoration of the whole cooling system.",
+        "rule_id": "R-008"
+      },
+      {
+        "action": "Treat the thermal buffer as a finite resource and act before it is depleted. Expect that once the buffer is gone, temperature will exceed safe operational thresholds and automated device shutdown will begin. Recognize that in parts of the datacenter temperature can rise so quickly that hardware is damaged before it can shut down.",
+        "rule_id": "R-002"
+      },
+      {
+        "action": "Progressively decrease the thermal load within the data center space. Consider terminating non-critical workloads such as Preemptible VMs to reduce thermal load and ensure space for zonal failover activities. If thermal load reduction is insufficient, power down servers to prevent an even longer outage and further impact to infrastructure.",
+        "rule_id": "R-006"
+      },
+      {
+        "action": "Begin reducing loads on computing, storage, network, database, and big data clusters to slow temperature rise. Shut down servers in rooms with high temperature. Treat sprinkler activation as a risk that can damage power supply cabinets and server racks and complicate restoration.",
+        "rule_id": "R-009"
+      }
+    ],
+    "escalate": {
+      "now": true,
+      "to": "incident commander",
+      "reason": "Thermal buffer depletion is imminent or automated shutdowns have started; temperatures continue to rise despite initial load reduction; sprinkler activation is possible."
+    },
+    "not_covered": [
+      "No rule addresses the specific scenario of a chiller malfunction causing rising corridor temperatures without utility voltage swells or control-system failover.",
+      "No rule covers the coordination with the data center infrastructure provider and chiller manufacturer beyond notification.",
+      "No rule addresses the auxiliary heat dissipation and ventilation measures taken as part of the contingency plan."
+    ]
+  },
+  "removed": [],
+  "evaluation": {
+    "case_id": "ALI-HKG-2022",
+    "pill_version": "1.3.0",
+    "per_finding": [
+      {
+        "finding": "F1",
+        "anticipated": "no",
+        "by": [],
+        "note": "No rule or action addresses air entering the cooling system due to lack of water."
+      },
+      {
+        "finding": "F2",
+        "anticipated": "yes",
+        "by": [
+          "R-007"
+        ],
+        "note": "R-007 explicitly warns that standby chillers may share the same water loop and failover will likely fail."
+      },
+      {
+        "finding": "F3",
+        "anticipated": "yes",
+        "by": [
+          "R-008"
+        ],
+        "note": "R-008 states individual restart will not work while chillers are bound in a cluster and requires unbinding."
+      },
+      {
+        "finding": "F4",
+        "anticipated": "yes",
+        "by": [
+          "R-009"
+        ],
+        "note": "R-009 directs reducing loads on computing, storage, network, database, and big data clusters to slow temperature rise."
+      },
+      {
+        "finding": "F5",
+        "anticipated": "yes",
+        "by": [
+          "R-008"
+        ],
+        "note": "R-008 directs manually modifying chiller configurations to unbind them from the cluster for individual restart."
+      },
+      {
+        "finding": "F6",
+        "anticipated": "yes",
+        "by": [
+          "R-009"
+        ],
+        "note": "R-009 treats sprinkler activation as a risk that can damage power supply cabinets and server racks."
+      },
+      {
+        "finding": "F7",
+        "anticipated": "partly",
+        "by": [
+          "R-007"
+        ],
+        "note": "R-007 addresses failover effectiveness for cooling but not the broader automatic/manual failover deadlock remediation."
+      },
+      {
+        "finding": "F8",
+        "anticipated": "partly",
+        "by": [
+          "R-006",
+          "R-009"
+        ],
+        "note": "Actions cover load reduction and server shutdown but do not specify standardized emergency processes or power-off criteria."
+      },
+      {
+        "finding": "F9",
+        "anticipated": "no",
+        "by": [],
+        "note": "No rule or action addresses expanding monitoring metrics for finer-grained data."
+      }
+    ]
+  },
+  "score": 0.6666666666666666
+}

@@ -1,0 +1,55 @@
+{
+  "case_id": "GCP-LDN-2022",
+  "pill": "dc-cooling-loss",
+  "pill_version": "1.1.0",
+  "classification": "partly_recurring",
+  "matched_rules": [
+    {
+      "rule_id": "R-001",
+      "because": "Signals show extraordinarily high outside temperatures and an issue affecting two cooling systems, consistent with a cooling-plant threat; however, the signals do not explicitly state storms are active or that a utility-to-generator transfer has occurred, so the rule's 'when' conditions are only partly met.",
+      "signals": [
+        "GCP-LDN-2022:S30",
+        "GCP-LDN-2022:S34"
+      ]
+    },
+    {
+      "rule_id": "R-002",
+      "because": "An issue affecting two cooling systems implies mechanical cooling may be down and the datacenter may be running on its load-dependent thermal buffer, but the signals do not yet show datacenter temperature approaching safe operational thresholds.",
+      "signals": [
+        "GCP-LDN-2022:S34"
+      ]
+    }
+  ],
+  "next_actions": [
+    {
+      "action": "Immediately verify that mechanical cooling systems are still running, rather than assuming surge suppressors protected them.",
+      "rule_id": "R-001"
+    },
+    {
+      "action": "If mechanical cooling has shut down, treat the datacenter as being on a load-dependent thermal buffer and start planning for its depletion.",
+      "rule_id": "R-001"
+    },
+    {
+      "action": "Treat the thermal buffer as a finite resource and act before it is depleted.",
+      "rule_id": "R-002"
+    }
+  ],
+  "escalate": {
+    "now": true,
+    "to": "facility operations lead and cooling plant engineer",
+    "reason": "An issue affecting two cooling systems has been reported and engineers are assessing mitigations; mechanical cooling status is not yet confirmed, and the thermal buffer may be depleting."
+  },
+  "not_covered": [
+    "The root cause of the cooling-system issue is not yet identified in the signals; no rule addresses diagnosis of an unknown cooling fault.",
+    "The signals do not state whether storms are active or whether a utility-to-generator transfer has occurred, so R-001's full trigger conditions cannot be confirmed.",
+    "The signals do not state whether the datacenter control system is failing over or unavailable, so R-003 and R-004 cannot be applied.",
+    "The signals do not state whether datacenter temperature is approaching safe operational thresholds, so R-002's full trigger conditions cannot be confirmed."
+  ],
+  "removed_by_checks": [],
+  "llm": {
+    "provider": "deepseek",
+    "model": "deepseek-chat",
+    "key": "4b4228c144d3c609e230cebd",
+    "replayed": true
+  }
+}

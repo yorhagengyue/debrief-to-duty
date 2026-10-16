@@ -1,0 +1,85 @@
+{
+  "case_id": "AZ-AUE-2023",
+  "pill_version": "1.3.0",
+  "per_finding": [
+    {
+      "finding": "F1",
+      "anticipated": "yes",
+      "by": [
+        "R-001"
+      ],
+      "note": "R-001 explicitly identifies a utility voltage sag causing chillers to fail to restart automatically."
+    },
+    {
+      "finding": "F2",
+      "anticipated": "no",
+      "by": [],
+      "note": "The triage does not mention incremental load increases or a timing defect in the Chiller Management System."
+    },
+    {
+      "finding": "F3",
+      "anticipated": "no",
+      "by": [],
+      "note": "The triage does not address high chilled water loop temperatures preventing restart of the final chillers."
+    },
+    {
+      "finding": "F4",
+      "anticipated": "no",
+      "by": [],
+      "note": "The triage does not mention a self-protection mechanism inhibiting restart due to elevated water temperatures."
+    },
+    {
+      "finding": "F5",
+      "anticipated": "partly",
+      "by": [
+        "R-002"
+      ],
+      "note": "R-002 directs acting before automated shutdowns begin, but does not specify the 11:34 UTC remote shutdown of remaining infrastructure."
+    },
+    {
+      "finding": "F6",
+      "anticipated": "no",
+      "by": [],
+      "note": "The triage does not state that shutdown would allow the chilled water loop to cool and enable chiller restart."
+    },
+    {
+      "finding": "F7",
+      "anticipated": "no",
+      "by": [],
+      "note": "The triage does not mention implementing a control timing logic change to the Chiller Management System."
+    },
+    {
+      "finding": "F8",
+      "anticipated": "no",
+      "by": [],
+      "note": "The triage does not mention changing the Emergency Operation Procedure to a load-based restart sequence."
+    },
+    {
+      "finding": "F9",
+      "anticipated": "no",
+      "by": [],
+      "note": "The triage does not mention increasing technician staffing levels as a temporary mitigation."
+    },
+    {
+      "finding": "F10",
+      "anticipated": "no",
+      "by": [],
+      "note": "The triage does not discuss staffing levels or a load-based restart sequence preventing impact."
+    },
+    {
+      "finding": "F11",
+      "anticipated": "yes",
+      "by": [
+        "R-002"
+      ],
+      "note": "R-002 explicitly expects automated device shutdowns once the thermal buffer is depleted."
+    }
+  ],
+  "score": 0.22727272727272727,
+  "llm": {
+    "provider": "deepseek",
+    "model": "deepseek-chat",
+    "key": "52272416eeb3b0b011820070",
+    "replayed": true
+  }
+}

@@ -1,0 +1,150 @@
+{
+  "scenario": {
+    "id": "SCN-SIN-01",
+    "title": "Synthetic test: night-time voltage dip during a planned chilled-water valve replacement (Singapore)",
+    "synthetic": true,
+    "at": "2026-11-20T19:10:00Z",
+    "site": "Synthetic site: a Singapore data center, three data halls on one chilled-water plant of six chillers (four running, two standby)",
+    "signals": [
+      {
+        "t_plus_min": 0,
+        "text": "Utility reports a voltage dip during a thunderstorm."
+      },
+      {
+        "t_plus_min": 1,
+        "text": "Three of the four running chillers tripped. Two restarted automatically; one shows a fault and has not restarted."
+      },
+      {
+        "t_plus_min": 3,
+        "text": "The two standby chillers are on the same chilled-water loop as the running chillers."
+      },
+      {
+        "t_plus_min": 4,
+        "text": "A contractor is midway through a planned replacement of a chilled-water valve in plant room B."
+      },
+      {
+        "t_plus_min": 6,
+        "text": "Chilled-water supply temperature is rising. Hall 3 carries the highest IT load."
+      },
+      {
+        "t_plus_min": 8,
+        "text": "Night shift on site: two technicians."
+      }
+    ],
+    "asks": [
+      "Do we need more technicians on the night shift at our Singapore sites?",
+      "What should we check before we let a contractor work on the chilled-water plant?",
+      "Our standby chillers are on the same loop as the running ones. Is that a problem?",
+      "What chilled-water temperature should trigger shedding IT load?"
+    ]
+  },
+  "signals": {
+    "SCN-SIN-01:S1": "Utility reports a voltage dip during a thunderstorm.",
+    "SCN-SIN-01:S2": "Three of the four running chillers tripped. Two restarted automatically; one shows a fault and has not restarted.",
+    "SCN-SIN-01:S3": "The two standby chillers are on the same chilled-water loop as the running chillers.",
+    "SCN-SIN-01:S4": "A contractor is midway through a planned replacement of a chilled-water valve in plant room B.",
+    "SCN-SIN-01:S5": "Chilled-water supply temperature is rising. Hall 3 carries the highest IT load.",
+    "SCN-SIN-01:S6": "Night shift on site: two technicians."
+  },
+  "pill_version": "1.4.0",
+  "pill_status": "released",
+  "triage": {
+    "case_id": "SCN-SIN-01",
+    "pill": "dc-cooling-loss",
+    "pill_version": "1.4.0",
+    "classification": "partly_recurring",
+    "matched_rules": [
+      {
+        "rule_id": "R-001",
+        "because": "A thunderstorm is active and the utility feed shows a voltage dip; three of four running chillers tripped, indicating mechanical cooling was affected. The rule directs verifying mechanical cooling is running and treating the datacenter as on a load-dependent thermal buffer if cooling has shut down.",
+        "signals": [
+          "SCN-SIN-01:S1",
+          "SCN-SIN-01:S2"
+        ]
+      },
+      {
+        "rule_id": "R-007",
+        "because": "A cooling failure has occurred and the standby chillers share the same chilled-water loop as the running chillers, so failover to standby is likely to fail. The rule directs confirming independence and moving to auxiliary measures if not independent.",
+        "signals": [
+          "SCN-SIN-01:S2",
+          "SCN-SIN-01:S3"
+        ]
+      },
+      {
+        "rule_id": "R-010",
+        "because": "A utility voltage dip has tripped multiple chillers and some require manual restart; more than one data hall is supported by the chillers that failed to restart. The rule directs sequencing manual restarts by data hall load.",
+        "signals": [
+          "SCN-SIN-01:S1",
+          "SCN-SIN-01:S2",
+          "SCN-SIN-01:S5"
+        ]
+      },
+      {
+        "rule_id": "R-011",
+        "because": "Chillers have tripped offline and are being manually restarted; the chilled-water loop is sitting without full cooling and supply temperature is rising, making loop temperature the deadline for restart.",
+        "signals": [
+          "SCN-SIN-01:S2",
+          "SCN-SIN-01:S5"
+        ]
+      },
+      {
+        "rule_id": "R-012",
+        "because": "Chillers supporting data halls have tripped offline; the site has four running and two standby chillers, and Hall 3 carries the highest IT load, so minimum chiller count per data hall must be confirmed.",
+        "signals": [
+          "SCN-SIN-01:S2",
+          "SCN-SIN-01:S5"
+        ]
+      },
+      {
+        "rule_id": "R-014",
+        "because": "A voltage event has tripped multiple chillers and manual restart is required; night shift has only two technicians on site, so extra staffing should be staged before manual restarts.",
+        "signals": [
+          "SCN-SIN-01:S1",
+          "SCN-SIN-01:S2",
+          "SCN-SIN-01:S6"
+        ]
+      }
+    ],
+    "next_actions": [
+      {
+        "action": "Immediately verify that mechanical cooling systems are still running rather than assuming surge suppressors protected them; if mechanical cooling has shut down, treat the datacenter as being on a load-dependent thermal buffer and start planning for its depletion.",
+        "rule_id": "R-001"
+      },
+      {
+        "action": "Do not assume standby chillers will take over; confirm the standby plant draws from an independent water circuit before relying on it. If the standby shares the same water loop, treat the failover as likely to fail and move directly to auxiliary heat dissipation and ventilation measures, and notify the chiller manufacturer early.",
+        "rule_id": "R-007"
+      },
+      {
+        "action": "Count how many chillers each impacted data hall still has running against its minimum requirement; treat any data hall below its minimum as being in thermal runaway risk and act on load before temperatures climb, accounting for standby chillers separately from running chillers.",
+        "rule_id": "R-012"
+      },
+      {
+        "action": "Sequence manual chiller restarts by data hall load so that every impacted data hall gets partial cooling early, rather than finishing one data hall before starting the next; do not work through chillers in an adjacent sequence.",
+        "rule_id": "R-010"
+      },
+      {
+        "action": "Recognize that once loop water reaches elevated temperatures the chiller self-protection mechanism will inhibit restart; prioritize restarting the chillers that serve the most thermally exposed data halls before the loop heats past the restart limit. If restart is inhibited, plan to reduce thermal load so the loop can cool rather than repeatedly attempting restart.",
+        "rule_id": "R-011"
+      },
+      {
+        "action": "Increase technician staffing at the datacenter so manual restart procedures can be executed promptly, and assign teams so restarts can proceed in parallel across data halls rather than sequentially.",
+        "rule_id": "R-014"
+      }
+    ],
+    "escalate": {
+      "now": true,
+      "to": "facility operations lead and cooling plant engineer",
+      "reason": "Mechanical cooling is confirmed affected (three of four running chillers tripped) while storms remain active in the area, and standby chillers share the same chilled-water loop as the running chillers, so failover is likely to fail."
+    },
+    "not_covered": [
+      "A contractor is midway through a planned replacement of a chilled-water valve in plant room B; no rule addresses ongoing maintenance or contractor presence during a cooling event."
+    ]
+  },
+  "removed_by_checks": [],
+  "llm": {
+    "provider": "deepseek",
+    "model": "deepseek-chat",
+    "key": "a8f5c785b05c41df51e08ff2",
+    "replayed": true
+  }
+}

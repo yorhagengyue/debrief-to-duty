@@ -1,0 +1,39 @@
+{
+  "tag": "evaluate:AZ-AUE-2023@1.0.1",
+  "provider": "hunyuan",
+  "model": "hy3",
+  "at": "2026-10-16T03:44:05.939Z",
+  "request": {
+    "model": "hy3",
+    "messages": [
+      {
+        "role": "system",
+        "content": "You grade a first-hour triage against what the operator's own incident review later concluded.\n\nFor each finding, decide whether a duty team following the triage (its matched rules, next actions and escalation) would have been pointed at the substance of that finding during the incident:\n- \"yes\": the triage names it or directs the action it describes.\n- \"partly\": the triage points in the right direction but misses the key specific (the mechanism, the order, the threshold, the person).\n- \"no\": nothing in the triage leads there.\nFor remediation findings (longer-term fixes), \"yes\" means the triage already applies that practice.\n\n\"by\" lists the rule ids that earned the credit (empty for \"no\"). \"note\" is one short sentence. Judge only from the triage given; do not reward actions the triage did not state.\n\nReply with JSON only: {\"per_finding\":[{\"finding\":\"F1\",\"anticipated\":\"yes|partly|no\",\"by\":[\"R-001\"],\"note\":\"...\"}]}"
+      },
+      {
+        "role": "user",
+        "content": "{\"triage\":{\"classification\":\"novel\",\"matched_rules\":[],\"next_actions\":[],\"escalate\":{\"now\":true,\"to\":\"facility engineering duty manager / site emergency plan owner\",\"reason\":\"Voltage sag caused 13 chillers to fail restart; two data halls need >=4 chillers operational but no rule in dc-cooling-loss@1.0.1 covers chiller failure/restoration, remote reset, or manual restart actions; cooling loss risk is unaddressed by approved pill.\"},\"not_covered\":[\"Voltage sag on utility power line (S78)\",\"13 chillers failed to restart automatically after sag (S79)\",\"Remote resets commenced (S80)\",\"Manual restart teams dispatched to two chiller groups (S81, S82)\",\"Required >=4 chillers for two halls vs 5 running + 2 standby pre-event, now unknown count operational (S19, S20)\"]},\"findings\":[{\"id\":\"F1\",\"kind\":\"root_cause\",\"text\":\"The voltage sag caused cooling system chillers for multiple datacenters to shut down.\"},{\"id\":\"F2\",\"kind\":\"contributing_factor\",\"text\":\"Incremental load increases over time in the Availability Zone resulted in a chiller operating configuration that was susceptible to a timing defect in the Chiller Management System.\"},{\"id\":\"F3\",\"kind\":\"contributing_factor\",\"text\":\"By the time the team reached the final five chillers requiring a manual restart, the water inside the pump system for these chillers (chilled water loop) had reached temperatures that were too high to allow them to be restarted.\"},{\"id\":\"F4\",\"kind\":\"contributing_factor\",\"text\":\"In this scenario, the restart is inhibited by a self-protection mechanism that acts to prevent damage to the chiller that would occur by processing water at the elevated temperatures.\"},{\"id\":\"F5\",\"kind\":\"response\",\"text\":\"At 11:34 UTC, as temperatures continued to increase, our onsite datacenter team began a remote shutdown of remaining networking, compute, and storage infrastructure in the impacted data halls to protect data durability, infrastructure health, and address the thermal runaway.\"},{\"id\":\"F6\",\"kind\":\"response\",\"text\":\"This shutdown allowed the chilled water loop to return to a safe temperature which allowed us to restart the chillers.\"},{\"id\":\"F7\",\"kind\":\"remediation\",\"text\":\"We have de-risked this failure to restart due to voltage fluctuations, by implementing a change to the control timing logic on the Chiller Management System (Completed).\"},{\"id\":\"F8\",\"kind\":\"remediation\",\"text\":\"Emergency Operation Procedure for manual restarts of simultaneous chiller failures has changed from an ‘adjacent’ sequence to a data hall ‘load based’ sequence to ensure all impacted data halls have partial cooling, to slow thermal runaway while full cooling is being restored (Completed).\"},{\"id\":\"F9\",\"kind\":\"remediation\",\"text\":\"Following this incident, as a temporary mitigation, we increased technician staffing levels at the datacenter to be prepared to execute manual restart procedures of our chillers prior to the change to the Chiller Management System to prevent restart failures.\"},{\"id\":\"F10\",\"kind\":\"contributing_factor\",\"text\":\"Based on our incident analysis the staffing levels at the time would have been sufficient to prevent impact if a ‘load based' chiller restart sequence had been followed, which we have since implemented (Completed).\"},{\"id\":\"F11\",\"kind\":\"impact\",\"text\":\"At 10:30 UTC some networking, compute, and storage infrastructure began to shutdown automatically as data hall temperatures increased, impacting service availability.\"}]}"
+      }
+    ],
+    "temperature": 0,
+    "max_tokens": 4000,
+    "response_format": {
+      "type": "json_object"
+    },
+    "thinking": {
+      "type": "disabled"
+    }
+  },
+  "response": "{\"per_finding\": [{\"finding\": \"F1\", \"anticipated\": \"yes\", \"by\": [], \"note\": \"Triage escalate reason states voltage sag caused 13 chillers to fail restart.\"}, {\"finding\": \"F2\", \"anticipated\": \"no\", \"by\": [], \"note\": \"Triage mentions no load increases, timing defect, or chiller config susceptibility.\"}, {\"finding\": \"F3\", \"anticipated\": \"no\", \"by\": [], \"note\": \"Triage lists manual restart dispatched but not water temp too high blocking restart.\"}, {\"finding\": \"F4\", \"anticipated\": \"no\", \"by\": [], \"note\": \"Triage does not describe any self-protection mechanism inhibiting restart.\"}, {\"finding\": \"F5\", \"anticipated\": \"no\", \"by\": [], \"note\": \"Triage has no next actions and does not mention remote infra shutdown at 11:34.\"}, {\"finding\": \"F6\", \"anticipated\": \"no\", \"by\": [], \"note\": \"Triage does not state shutdown enabled chilled water to cool and chillers to restart.\"}, {\"finding\": \"F7\", \"anticipated\": \"no\", \"by\": [], \"note\": \"Triage does not apply or suggest control timing logic change to CMS.\"}, {\"finding\": \"F8\", \"anticipated\": \"no\", \"by\": [], \"note\": \"Triage does not define load-based restart sequence or emergency procedure change.\"}, {\"finding\": \"F9\", \"anticipated\": \"no\", \"by\": [], \"note\": \"Triage does not mention increased technician staffing as mitigation.\"}, {\"finding\": \"F10\", \"anticipated\": \"no\", \"by\": [], \"note\": \"Triage does not analyze staffing sufficiency vs load-based sequence.\"}, {\"finding\": \"F11\", \"anticipated\": \"no\", \"by\": [], \"note\": \"Triage notes cooling loss risk unaddressed but not auto shutdown at 10:30 from heat.\"}]}",
+  "usage": {
+    "prompt_tokens": 990,
+    "completion_tokens": 442,
+    "total_tokens": 1432,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0
+    }
+  }
+}

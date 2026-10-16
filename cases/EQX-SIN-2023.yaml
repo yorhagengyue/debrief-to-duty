@@ -1,0 +1,19 @@
+id: EQX-SIN-2023
+title: "Valves on chilled-water buffer tanks closed by a wrong signal during a planned upgrade (Equinix, Singapore)"
+t0: "2023-10-14T07:00:00Z"
+operator: "Equinix (colocation; tenants included DBS and Citibank)"
+site: "One Equinix data center in Singapore"
+sources: [EQX-SIN-2023]
+early_signals:
+  - { t_plus_min: 0, sentence: "EQX-SIN-2023:S7", excerpt: "during a planned system upgrade" }
+  - { t_plus_min: 0, sentence: "EQX-SIN-2023:S5", excerpt: "server temperatures rise above optimal operating conditions" }
+debrief: [EQX-SIN-2023:S1, EQX-SIN-2023:S4, EQX-SIN-2023:S5, EQX-SIN-2023:S6, EQX-SIN-2023:S7, EQX-SIN-2023:S8, EQX-SIN-2023:S9, EQX-SIN-2023:S10, EQX-SIN-2023:S11]
+findings:
+  - { id: F1, kind: root_cause, sentence: "EQX-SIN-2023:S7" }
+  - { id: F2, kind: impact, sentence: "EQX-SIN-2023:S6" }
+  - { id: F3, kind: contributing_factor, sentence: "EQX-SIN-2023:S9" }
+  - { id: F4, kind: impact, sentence: "EQX-SIN-2023:S11" }
+curation_note: >
+  Secondary source: no public post-incident review from Equinix was found, so this case rests on a news report that
+  quotes Equinix and a minister's reply in Parliament. The source gives the date but not the time; the replay uses the
+  date. Triage sees only that a planned upgrade was under way and that server temperatures were rising.

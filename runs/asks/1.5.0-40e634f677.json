@@ -1,0 +1,14 @@
+{
+  "question": "What should we check before we let a contractor work on the chilled-water plant?",
+  "pill_version": "1.5.0",
+  "answer": "Before a contractor works on the chilled-water plant, the pill's direct guidance is R-015: treat contractor control actions during upgrades as a cooling-availability threat. Specifically, verify that contractor-issued signals cannot close the valves on the chilled-water buffer tanks or otherwise isolate the chilled-water loop, and confirm the actual valve position on the buffer tanks directly rather than trusting the control system indication. If valves have been closed, treat the loop as losing its buffer and act to restore flow before temperatures rise. This is grounded in the review's finding that overheating was caused by a contractor sending an incorrect signal to close the chilled-water buffer tank valves during a planned system upgrade. Escalation for this situation is to the facility operations lead and cooling plant engineer. Related guardrails reinforce why you cannot lean on other protections instead: G-001 (do not rely on surge suppressors alone to keep mechanical cooling available), G-007 (do not assume automatic failover to standby cooling will work; verify both automatic and manual failover effectiveness before relying on them), and G-010 (do not assume backup plans for a cooling failure will work).",
+  "relies_on": [
+    "R-015",
+    "G-001",
+    "G-007",
+    "G-010"
+  ],
+  "not_in_pill": "The pill does not specify a contractor-competency check, permit-to-work or lockout/tagout procedure, supervision requirements, or a pre-work checklist beyond the buffer-tank valve verification in R-015.",
+  "decide_with": "facility operations lead and cooling plant engineer (per R-015 escalation)",
+  "removed_by_checks": []
+}

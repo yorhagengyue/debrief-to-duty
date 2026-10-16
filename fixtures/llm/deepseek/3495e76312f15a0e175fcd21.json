@@ -1,0 +1,36 @@
+{
+  "tag": "evaluate:EQX-SIN-2023@1.4.0",
+  "provider": "deepseek",
+  "model": "deepseek-chat",
+  "at": "2026-10-16T03:50:21.611Z",
+  "attempt": 1,
+  "request": {
+    "model": "deepseek-chat",
+    "messages": [
+      {
+        "role": "system",
+        "content": "You grade a first-hour triage against what the operator's own incident review later concluded.\n\nFor each finding, decide whether a duty team following the triage (its matched rules, next actions and escalation) would have been pointed at the substance of that finding during the incident:\n- \"yes\": the triage names it or directs the action it describes.\n- \"partly\": the triage points in the right direction but misses the key specific (the mechanism, the order, the threshold, the person).\n- \"no\": nothing in the triage leads there.\nFor remediation findings (longer-term fixes), \"yes\" means the triage already applies that practice.\n\n\"by\" lists the rule ids that earned the credit (empty for \"no\"). \"note\" is one short sentence. Judge only from the triage given; do not reward actions the triage did not state.\n\nReply with JSON only: {\"per_finding\":[{\"finding\":\"F1\",\"anticipated\":\"yes|partly|no\",\"by\":[\"R-001\"],\"note\":\"...\"}]}"
+      },
+      {
+        "role": "user",
+        "content": "{\"triage\":{\"classification\":\"partly_recurring\",\"matched_rules\":[{\"rule_id\":\"R-002\",\"because\":\"Server temperatures are rising above optimal operating conditions during a planned system upgrade, indicating the datacenter is approaching safe operational thresholds and the thermal buffer may be depleting.\",\"signals\":[\"EQX-SIN-2023:S5\",\"EQX-SIN-2023:S7\"]}],\"next_actions\":[{\"action\":\"Treat the thermal buffer as a finite resource and act before it is depleted; expect that once the buffer is gone, temperature will exceed safe operational thresholds and automated device shutdown will begin; recognize that in parts of the datacenter temperature can rise so quickly that hardware is damaged before it can shut down.\",\"rule_id\":\"R-002\"}],\"escalate\":{\"now\":true,\"to\":\"incident commander\",\"reason\":\"Thermal buffer depletion is imminent or automated shutdowns have started, as server temperatures rise above optimal operating conditions during a planned system upgrade.\"},\"not_covered\":[\"The planned system upgrade itself and its potential role in causing or exacerbating the cooling issue is not addressed by any rule.\"]},\"findings\":[{\"id\":\"F1\",\"kind\":\"root_cause\",\"text\":\"According to Equinix, the overheating issue was caused by a contractor that sent an incorrect signal to \\\"close the valves from the chilled water buffer tanks\\\" during a planned system upgrade.\"},{\"id\":\"F2\",\"kind\":\"impact\",\"text\":\"The outage led to 810,000 failed access attempts, Tan said this Monday, with 2.5 million unsuccessful payment and ATM transactions.\"},{\"id\":\"F3\",\"kind\":\"contributing_factor\",\"text\":\"DBS was unable to reach its backup data center because of a \\\"network misconfiguration,\\\" Singapore's government said, while Citibank had some unspecified connectivity issues.\"},{\"id\":\"F4\",\"kind\":\"impact\",\"text\":\"MAS dictates that unscheduled downtime for critical banking systems should not exceed four hours within a 12-month period, and the October issue clearly went beyond that limit.\"}]}"
+      }
+    ],
+    "temperature": 0,
+    "max_tokens": 4000,
+    "response_format": {
+      "type": "json_object"
+    }
+  },
+  "response": "{\"per_finding\":[{\"finding\":\"F1\",\"anticipated\":\"partly\",\"by\":[\"R-002\"],\"note\":\"Triage points to the planned upgrade as the context and thermal buffer depletion, but does not name the contractor's incorrect valve-closing signal as the root cause.\"},{\"finding\":\"F2\",\"anticipated\":\"no\",\"by\":[],\"note\":\"Triage contains no mention of failed access attempts or unsuccessful payment/ATM transaction volumes.\"},{\"finding\":\"F3\",\"anticipated\":\"no\",\"by\":[],\"note\":\"Triage does not address backup datacenter reachability, network misconfiguration, or Citibank connectivity issues.\"},{\"finding\":\"F4\",\"anticipated\":\"no\",\"by\":[],\"note\":\"Triage does not reference MAS downtime limits or the four-hour regulatory threshold.\"}]}",
+  "usage": {
+    "prompt_tokens": 672,
+    "completion_tokens": 163,
+    "total_tokens": 835,
+    "prompt_tokens_details": {
+      "cached_tokens": 128
+    },
+    "prompt_cache_hit_tokens": 128,
+    "prompt_cache_miss_tokens": 544
+  }
+}

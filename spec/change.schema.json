@@ -1,0 +1,170 @@
+{
+  "$id": "https://github.com/yorhagengyue/debrief-to-duty/blob/main/spec/change.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "oneOf": [
+    {
+      "type": "object",
+      "properties": {
+        "op": {
+          "type": "string",
+          "const": "add_rule"
+        },
+        "title": {
+          "type": "string"
+        },
+        "when": {
+          "minItems": 1,
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "then": {
+          "minItems": 1,
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "why": {
+          "type": "string"
+        },
+        "escalate": {
+          "type": "object",
+          "properties": {
+            "to": {
+              "type": "string"
+            },
+            "trigger": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "to",
+            "trigger"
+          ]
+        },
+        "evidence": {
+          "minItems": 1,
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^[A-Z0-9-]+:S\\d+$"
+          }
+        }
+      },
+      "required": [
+        "op",
+        "title",
+        "when",
+        "then",
+        "why",
+        "evidence"
+      ]
+    },
+    {
+      "type": "object",
+      "properties": {
+        "op": {
+          "type": "string",
+          "const": "amend_rule"
+        },
+        "rule_id": {
+          "type": "string",
+          "pattern": "^R-\\d{3}$"
+        },
+        "add_when": {
+          "default": [],
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "add_then": {
+          "default": [],
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "why": {
+          "type": "string"
+        },
+        "escalate": {
+          "type": "object",
+          "properties": {
+            "to": {
+              "type": "string"
+            },
+            "trigger": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "to",
+            "trigger"
+          ]
+        },
+        "evidence": {
+          "minItems": 1,
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^[A-Z0-9-]+:S\\d+$"
+          }
+        }
+      },
+      "required": [
+        "op",
+        "rule_id",
+        "why",
+        "evidence"
+      ]
+    },
+    {
+      "type": "object",
+      "properties": {
+        "op": {
+          "type": "string",
+          "const": "add_guardrail"
+        },
+        "text": {
+          "type": "string"
+        },
+        "evidence": {
+          "minItems": 1,
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^[A-Z0-9-]+:S\\d+$"
+          }
+        }
+      },
+      "required": [
+        "op",
+        "text",
+        "evidence"
+      ]
+    },
+    {
+      "type": "object",
+      "properties": {
+        "op": {
+          "type": "string",
+          "const": "ask_expert"
+        },
+        "question": {
+          "type": "string"
+        },
+        "why": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "op",
+        "question",
+        "why"
+      ]
+    }
+  ]
+}

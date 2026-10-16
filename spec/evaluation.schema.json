@@ -1,0 +1,55 @@
+{
+  "$id": "https://github.com/yorhagengyue/debrief-to-duty/blob/main/spec/evaluation.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "case_id": {
+      "type": "string"
+    },
+    "pill_version": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "per_finding": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "finding": {
+            "type": "string"
+          },
+          "anticipated": {
+            "type": "string",
+            "enum": [
+              "yes",
+              "partly",
+              "no"
+            ]
+          },
+          "by": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "note": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "finding",
+          "anticipated",
+          "by",
+          "note"
+        ]
+      }
+    }
+  },
+  "required": [
+    "case_id",
+    "pill_version",
+    "per_finding"
+  ]
+}

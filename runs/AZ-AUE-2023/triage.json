@@ -1,0 +1,80 @@
+{
+  "case_id": "AZ-AUE-2023",
+  "pill": "dc-cooling-loss",
+  "pill_version": "1.3.0",
+  "classification": "partly_recurring",
+  "matched_rules": [
+    {
+      "rule_id": "R-001",
+      "because": "A utility voltage sag occurred and chillers failed to restart automatically, indicating mechanical cooling may have shut down; the rule directs verifying cooling is running and treating the datacenter as on a load-dependent thermal buffer.",
+      "signals": [
+        "AZ-AUE-2023:S78",
+        "AZ-AUE-2023:S79"
+      ]
+    },
+    {
+      "rule_id": "R-002",
+      "because": "Mechanical cooling is down (13 chillers failed to restart) and the datacenter is running on its thermal buffer; the rule requires acting before buffer depletion and expecting automated shutdowns.",
+      "signals": [
+        "AZ-AUE-2023:S79"
+      ]
+    },
+    {
+      "rule_id": "R-004",
+      "because": "The control system is not mentioned as unavailable, but manual resets and manual restarts are underway, aligning with the rule's guidance to manually investigate and reset cooling equipment when visibility is limited.",
+      "signals": [
+        "AZ-AUE-2023:S80",
+        "AZ-AUE-2023:S81",
+        "AZ-AUE-2023:S82"
+      ]
+    },
+    {
+      "rule_id": "R-008",
+      "because": "Chillers failed to restart automatically and manual restarts are being attempted; the rule warns that if chillers are bound into a cluster, individual restart will not work and configurations must be modified.",
+      "signals": [
+        "AZ-AUE-2023:S79",
+        "AZ-AUE-2023:S81",
+        "AZ-AUE-2023:S82"
+      ]
+    }
+  ],
+  "next_actions": [
+    {
+      "action": "Immediately verify that mechanical cooling systems are still running and treat the datacenter as being on a load-dependent thermal buffer; start planning for its depletion.",
+      "rule_id": "R-001"
+    },
+    {
+      "action": "Act on thermal buffer depletion before automated shutdowns begin; expect that once the buffer is gone, temperature will exceed safe thresholds and automated device shutdown will begin.",
+      "rule_id": "R-002"
+    },
+    {
+      "action": "Manually investigate the affected cooling equipment and reset the affected equipment and PLCs into a maximum cooling configuration; confirm cooling is restored and temperatures are falling before standing down.",
+      "rule_id": "R-004"
+    },
+    {
+      "action": "Check whether chillers are bound into a cluster before attempting individual restart; if bound, plan to manually modify chiller configurations to unbind them so each can be restarted individually.",
+      "rule_id": "R-008"
+    }
+  ],
+  "escalate": {
+    "now": true,
+    "to": "facility operations lead and cooling plant engineer",
+    "reason": "Mechanical cooling is confirmed shut down (13 chillers failed to restart) and the datacenter is on a load-dependent thermal buffer; R-001 and R-002 escalation triggers are met."
+  },
+  "not_covered": [
+    "The specific cause of the voltage sag (e.g., storm activity) is not stated in the signals, so R-001's condition about storms being active is not confirmed.",
+    "The status of the datacenter control system (whether it is available or failed) is not provided, so R-003 and R-004's control-system conditions cannot be fully assessed.",
+    "Whether the chillers are configured as a bound cluster is not stated, so R-008's condition is not confirmed.",
+    "The current datacenter temperature and whether it is approaching safe operational thresholds is not provided, so R-002's temperature condition is not confirmed.",
+    "Whether standby chillers share a water circuit with active chillers is not stated, so R-007 cannot be applied.",
+    "Whether outside temperatures are extraordinarily high is not stated, so R-005 cannot be applied.",
+    "Whether the fire sprinkler system is at risk of activation is not stated, so R-009 cannot be applied."
+  ],
+  "removed_by_checks": [],
+  "llm": {
+    "provider": "deepseek",
+    "model": "deepseek-chat",
+    "key": "5ca7b3a02705bd995c1ed85a",
+    "replayed": true
+  }
+}

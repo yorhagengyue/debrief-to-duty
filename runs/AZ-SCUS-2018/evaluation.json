@@ -1,0 +1,49 @@
+{
+  "case_id": "AZ-SCUS-2018",
+  "pill_version": null,
+  "per_finding": [
+    {
+      "finding": "F1",
+      "anticipated": "no",
+      "by": [],
+      "note": "No pill existed yet."
+    },
+    {
+      "finding": "F2",
+      "anticipated": "no",
+      "by": [],
+      "note": "No pill existed yet."
+    },
+    {
+      "finding": "F3",
+      "anticipated": "no",
+      "by": [],
+      "note": "No pill existed yet."
+    },
+    {
+      "finding": "F4",
+      "anticipated": "no",
+      "by": [],
+      "note": "No pill existed yet."
+    },
+    {
+      "finding": "F5",
+      "anticipated": "no",
+      "by": [],
+      "note": "No pill existed yet."
+    },
+    {
+      "finding": "F6",
+      "anticipated": "no",
+      "by": [],
+      "note": "No pill existed yet."
+    },
+    {
+      "finding": "F7",
+      "anticipated": "no",
+      "by": [],
+      "note": "No pill existed yet."
+    }
+  ],
+  "score": 0
+}

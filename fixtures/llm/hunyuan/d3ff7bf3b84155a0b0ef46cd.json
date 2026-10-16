@@ -1,0 +1,39 @@
+{
+  "tag": "evaluate:AZ-SCUS-2018@1.0.1",
+  "provider": "hunyuan",
+  "model": "hy3",
+  "at": "2026-10-16T03:43:58.461Z",
+  "request": {
+    "model": "hy3",
+    "messages": [
+      {
+        "role": "system",
+        "content": "You grade a first-hour triage against what the operator's own incident review later concluded.\n\nFor each finding, decide whether a duty team following the triage (its matched rules, next actions and escalation) would have been pointed at the substance of that finding during the incident:\n- \"yes\": the triage names it or directs the action it describes.\n- \"partly\": the triage points in the right direction but misses the key specific (the mechanism, the order, the threshold, the person).\n- \"no\": nothing in the triage leads there.\nFor remediation findings (longer-term fixes), \"yes\" means the triage already applies that practice.\n\n\"by\" lists the rule ids that earned the credit (empty for \"no\"). \"note\" is one short sentence. Judge only from the triage given; do not reward actions the triage did not state.\n\nReply with JSON only: {\"per_finding\":[{\"finding\":\"F1\",\"anticipated\":\"yes|partly|no\",\"by\":[\"R-001\"],\"note\":\"...\"}]}"
+      },
+      {
+        "role": "user",
+        "content": "{\"triage\":{\"classification\":\"novel\",\"matched_rules\":[],\"next_actions\":[],\"escalate\":{\"now\":true,\"to\":\"facility duty manager / site emergency coordinator\",\"reason\":\"Pill dc-cooling-loss@1.0.1 has zero rules; signals show utility voltage swells, transfer to generator, mechanical cooling shutdown from swells, thermal buffer used, then storage servers shutting down from unsafe temps at T+47. No rule covers any of this, so nothing can be actioned from the pill.\"},\"not_covered\":[\"Lightning-induced utility voltage swells at T+0\",\"Partial datacenter transfer utility->generator at T+0\",\"Mechanical cooling systems shutdown by swells despite surge suppressors at T+0\",\"Load-dependent thermal buffer maintaining temps initially at T+0\",\"Storage servers shutting down from unsafe temperatures (customer impact) at T+47\"]},\"findings\":[{\"id\":\"F1\",\"kind\":\"root_cause\",\"text\":\"Additionally, these power swells shutdown the datacenter’s mechanical cooling systems despite having surge suppressors in place.\"},{\"id\":\"F2\",\"kind\":\"contributing_factor\",\"text\":\"However, once this thermal buffer was depleted the datacenter temperature exceeded safe operational thresholds, and an automated shutdown of devices was initiated.\"},{\"id\":\"F3\",\"kind\":\"contributing_factor\",\"text\":\"This shutdown mechanism is intended to preserve infrastructure and data integrity, but in this instance, temperatures increased so quickly in parts of the datacenter that some hardware was damaged before it could shut down.\"},{\"id\":\"F4\",\"kind\":\"response\",\"text\":\"While storms were still active in the area, onsite teams took a series of actions to prevent further damage – including transferring the rest of the datacenter to generators thereby stabilizing the power supply.\"},{\"id\":\"F5\",\"kind\":\"impact\",\"text\":\"A significant number of storage servers were damaged, as well as a small number of network devices and power units.\"},{\"id\":\"F6\",\"kind\":\"remediation\",\"text\":\"1. A detailed forensic analysis of the impacted datacenter hardware and systems, in addition to a thorough review of the datacenter recovery procedures.\"},{\"id\":\"F7\",\"kind\":\"remediation\",\"text\":\"3. An evaluation of the future hardware design of storage scale units to increase resiliency to environmental factors.\"}]}"
+      }
+    ],
+    "temperature": 0,
+    "max_tokens": 4000,
+    "response_format": {
+      "type": "json_object"
+    },
+    "thinking": {
+      "type": "disabled"
+    }
+  },
+  "response": "{\"per_finding\": [{\"finding\": \"F1\", \"anticipated\": \"yes\", \"by\": [], \"note\": \"Triage not_covered explicitly lists mechanical cooling shutdown by swells despite surge suppressors.\"}, {\"finding\": \"F2\", \"anticipated\": \"partly\", \"by\": [], \"note\": \"Triage mentions thermal buffer used then servers shutting down from unsafe temps, but not buffer depletion as the trigger sequence.\"}, {\"finding\": \"F3\", \"anticipated\": \"no\", \"by\": [], \"note\": \"Triage says servers shut down from unsafe temps; no mention of damage before shutdown or speed of rise.\"}, {\"finding\": \"F4\", \"anticipated\": \"no\", \"by\": [], \"note\": \"Triage notes transfer to generator at T+0 from swells, not later onsite stabilization during storms.\"}, {\"finding\": \"F5\", \"anticipated\": \"partly\", \"by\": [], \"note\": \"Triage notes storage servers shutting down (customer impact) but not hardware damage or other device types.\"}, {\"finding\": \"F6\", \"anticipated\": \"no\", \"by\": [], \"note\": \"Triage has no rules and no next actions; forensic review not stated.\"}, {\"finding\": \"F7\", \"anticipated\": \"no\", \"by\": [], \"note\": \"Triage does not evaluate or recommend hardware design changes for resilience.\"}]}",
+  "usage": {
+    "prompt_tokens": 727,
+    "completion_tokens": 310,
+    "total_tokens": 1037,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0
+    }
+  }
+}

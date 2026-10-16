@@ -1,0 +1,66 @@
+{
+  "case_id": "AWS-NRT-2019",
+  "pill": "dc-cooling-loss",
+  "pill_version": "1.0.0",
+  "classification": "partly_recurring",
+  "matched_rules": [
+    {
+      "rule_id": "R-001",
+      "because": "The signals show a portion of the datacenter transferred from utility power to generator power (control system failing away from a control host) and mechanical cooling shut down in a small portion of the datacenter, matching the 'when' conditions of R-001.",
+      "signals": [
+        "AWS-NRT-2019:S22",
+        "AWS-NRT-2019:S26"
+      ]
+    },
+    {
+      "rule_id": "R-002",
+      "because": "Mechanical cooling is down (cooling system shut down) and EC2 servers have already shut down due to overheating, indicating the thermal buffer is depleted and automated shutdowns have begun, matching the 'when' conditions of R-002.",
+      "signals": [
+        "AWS-NRT-2019:S26",
+        "AWS-NRT-2019:S3"
+      ]
+    }
+  ],
+  "next_actions": [
+    {
+      "action": "Immediately verify that mechanical cooling systems are still running, rather than assuming surge suppressors protected them.",
+      "rule_id": "R-001"
+    },
+    {
+      "action": "Treat the datacenter as being on a load-dependent thermal buffer and start planning for its depletion.",
+      "rule_id": "R-001"
+    },
+    {
+      "action": "Transfer the rest of the datacenter to generators to stabilize the power supply while storms are still active.",
+      "rule_id": "R-001"
+    },
+    {
+      "action": "Treat the thermal buffer as a finite resource and act before it is depleted.",
+      "rule_id": "R-002"
+    },
+    {
+      "action": "Expect that once the buffer is gone, temperature will exceed safe operational thresholds and automated device shutdown will begin.",
+      "rule_id": "R-002"
+    },
+    {
+      "action": "Recognize that in parts of the datacenter temperature can rise so quickly that hardware is damaged before it can shut down.",
+      "rule_id": "R-002"
+    }
+  ],
+  "escalate": {
+    "now": true,
+    "to": "facility operations lead and cooling plant engineer",
+    "reason": "Mechanical cooling confirmed shut down while storms remain active in the area (R-001 trigger)."
+  },
+  "not_covered": [
+    "The datacenter control system was in the process of failing away from one of the control hosts, causing the operations team to have minimum visibility into the health and state of the datacenter cooling systems.",
+    "The team attempted to activate purge in the affected areas of the datacenter, but this also failed."
+  ],
+  "removed_by_checks": [],
+  "llm": {
+    "provider": "deepseek",
+    "model": "deepseek-chat",
+    "key": "a953b3fa61be0b5ab411299d",
+    "replayed": true
+  }
+}

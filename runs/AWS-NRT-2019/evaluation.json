@@ -1,0 +1,73 @@
+{
+  "case_id": "AWS-NRT-2019",
+  "pill_version": "1.0.0",
+  "per_finding": [
+    {
+      "finding": "F1",
+      "anticipated": "no",
+      "by": [],
+      "note": "The triage never mentions the control system bug or excessive device interactions as the root cause."
+    },
+    {
+      "finding": "F2",
+      "anticipated": "yes",
+      "by": [
+        "R-001"
+      ],
+      "note": "R-001's action to verify mechanical cooling is still running and its 'small portion' signal directly point at the cooling shutdown in part of the datacenter."
+    },
+    {
+      "finding": "F3",
+      "anticipated": "no",
+      "by": [],
+      "note": "PLC controller failure and its role in blocking purge mode are not mentioned anywhere in the triage."
+    },
+    {
+      "finding": "F4",
+      "anticipated": "partly",
+      "by": [],
+      "note": "The triage lists control-system failover and lost visibility only in not_covered, so it is not directed by any matched rule or action."
+    },
+    {
+      "finding": "F5",
+      "anticipated": "partly",
+      "by": [
+        "R-001"
+      ],
+      "note": "R-001 directs verifying cooling and transferring to generators, but not the manual reset of equipment into maximum cooling configuration."
+    },
+    {
+      "finding": "F6",
+      "anticipated": "no",
+      "by": [],
+      "note": "Disabling the failover mode that triggered the bug is not stated or implied by the triage."
+    },
+    {
+      "finding": "F7",
+      "anticipated": "no",
+      "by": [],
+      "note": "Training local operations teams to identify and remediate the situation is not part of the triage."
+    },
+    {
+      "finding": "F8",
+      "anticipated": "no",
+      "by": [],
+      "note": "Modifying air handling unit control so purge mode bypasses PLCs is not mentioned in the triage."
+    },
+    {
+      "finding": "F9",
+      "anticipated": "partly",
+      "by": [
+        "R-002"
+      ],
+      "note": "R-002 warns hardware can be damaged before shutdown, pointing toward the hardware failures and instance retirements."
+    }
+  ],
+  "score": 0.2777777777777778,
+  "llm": {
+    "provider": "deepseek",
+    "model": "deepseek-chat",
+    "key": "208113b3702d09f5c1141df9",
+    "replayed": true
+  }
+}

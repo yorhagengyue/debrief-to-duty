@@ -1,0 +1,163 @@
+{
+  "triage": {
+    "case_id": "AZ-AUE-2023",
+    "pill": "dc-cooling-loss",
+    "pill_version": "1.4.0",
+    "classification": "partly_recurring",
+    "matched_rules": [
+      {
+        "rule_id": "R-001",
+        "because": "A utility voltage sag occurred and chillers failed to restart, indicating mechanical cooling may be compromised; the rule directs verifying cooling and planning for thermal buffer depletion.",
+        "signals": [
+          "AZ-AUE-2023:S78",
+          "AZ-AUE-2023:S79"
+        ]
+      },
+      {
+        "rule_id": "R-010",
+        "because": "A utility voltage sag tripped multiple chillers offline and manual restarts are required across two data halls; the rule mandates a load-based restart sequence across data halls.",
+        "signals": [
+          "AZ-AUE-2023:S78",
+          "AZ-AUE-2023:S79",
+          "AZ-AUE-2023:S81",
+          "AZ-AUE-2023:S82"
+        ]
+      },
+      {
+        "rule_id": "R-012",
+        "because": "Chillers supporting the data halls have tripped offline; the rule requires confirming the minimum operational chiller count per data hall.",
+        "signals": [
+          "AZ-AUE-2023:S19",
+          "AZ-AUE-2023:S20",
+          "AZ-AUE-2023:S79"
+        ]
+      },
+      {
+        "rule_id": "R-014",
+        "because": "Multiple chillers require manual restart and the Chiller Management System has not been changed to prevent restart failures; the rule advises staging extra technicians.",
+        "signals": [
+          "AZ-AUE-2023:S79",
+          "AZ-AUE-2023:S81",
+          "AZ-AUE-2023:S82"
+        ]
+      }
+    ],
+    "next_actions": [
+      {
+        "action": "Immediately verify that mechanical cooling systems are still running and assess thermal buffer status.",
+        "rule_id": "R-001"
+      },
+      {
+        "action": "Count how many chillers each impacted data hall still has running against its minimum requirement (at least four per hall).",
+        "rule_id": "R-012"
+      },
+      {
+        "action": "Sequence manual chiller restarts by data hall load so that every impacted data hall gets partial cooling early, rather than finishing one data hall before starting the next.",
+        "rule_id": "R-010"
+      },
+      {
+        "action": "Increase technician staffing at the datacenter so manual restart procedures can be executed promptly and in parallel across data halls.",
+        "rule_id": "R-014"
+      }
+    ],
+    "escalate": {
+      "now": true,
+      "to": "facility operations lead and cooling plant engineer",
+      "reason": "Mechanical cooling is confirmed shut down (chillers failed to restart) and multiple chillers require manual restart across more than one data hall, triggering escalation conditions for R-001, R-010, and R-012."
+    },
+    "not_covered": [
+      "No rule addresses the specific scenario of a voltage sag causing 13 chillers to fail automatic restart while the site is not on generator power and storms are not mentioned.",
+      "No rule covers the coordination of remote resets versus manual restarts when chillers fail to restart automatically after a voltage sag.",
+      "No rule addresses the potential need to transfer the datacenter to generator power when only a voltage sag (not a full outage) has occurred and storms are not active."
+    ]
+  },
+  "removed": [],
+  "evaluation": {
+    "case_id": "AZ-AUE-2023",
+    "pill_version": "1.4.0",
+    "per_finding": [
+      {
+        "finding": "F1",
+        "anticipated": "yes",
+        "by": [
+          "R-001",
+          "R-010"
+        ],
+        "note": "Triage names the voltage sag tripping chillers offline across data halls."
+      },
+      {
+        "finding": "F2",
+        "anticipated": "no",
+        "by": [],
+        "note": "Triage does not mention incremental load growth or the CMS timing defect susceptibility."
+      },
+      {
+        "finding": "F3",
+        "anticipated": "partly",
+        "by": [
+          "R-001",
+          "R-010"
+        ],
+        "note": "Triage directs sequencing restarts by load and assessing thermal buffer, but does not name the chilled water loop overheating that blocks the final five chillers."
+      },
+      {
+        "finding": "F4",
+        "anticipated": "no",
+        "by": [],
+        "note": "Triage does not mention the chiller self-protection mechanism inhibiting restart at elevated water temperatures."
+      },
+      {
+        "finding": "F5",
+        "anticipated": "no",
+        "by": [],
+        "note": "Triage does not direct or anticipate the remote shutdown of IT infrastructure to address thermal runaway."
+      },
+      {
+        "finding": "F6",
+        "anticipated": "no",
+        "by": [],
+        "note": "Triage does not state that shutting down IT load would cool the chilled water loop and enable chiller restart."
+      },
+      {
+        "finding": "F7",
+        "anticipated": "no",
+        "by": [],
+        "note": "Triage notes the CMS has not been changed but does not apply the remediation of changing control timing logic."
+      },
+      {
+        "finding": "F8",
+        "anticipated": "yes",
+        "by": [
+          "R-010"
+        ],
+        "note": "Triage already directs a load-based restart sequence across data halls to give partial cooling early."
+      },
+      {
+        "finding": "F9",
+        "anticipated": "yes",
+        "by": [
+          "R-014"
+        ],
+        "note": "Triage already directs increasing technician staffing to execute manual restarts promptly."
+      },
+      {
+        "finding": "F10",
+        "anticipated": "partly",
+        "by": [
+          "R-010",
+          "R-014"
+        ],
+        "note": "Triage applies load-based sequencing and extra staffing but does not state that staffing alone would have sufficed with that sequence."
+      },
+      {
+        "finding": "F11",
+        "anticipated": "partly",
+        "by": [
+          "R-001"
+        ],
+        "note": "Triage directs assessing thermal buffer status, pointing toward thermal-driven IT shutdowns, but does not name the automatic infrastructure shutdown or service impact."
+      }
+    ]
+  },
+  "score": 0.4090909090909091
+}

@@ -1,0 +1,19 @@
+# SYNTHETIC. Written by the project team to test the pill on a new situation. Not a real incident and not any
+# operator's site. It combines conditions that appear separately in the six reviews.
+id: SCN-SIN-01
+title: "Synthetic test: night-time voltage dip during a planned chilled-water valve replacement (Singapore)"
+synthetic: true
+at: "2026-11-20T19:10:00Z"
+site: "Synthetic site: a Singapore data center, three data halls on one chilled-water plant of six chillers (four running, two standby)"
+signals:
+  - { t_plus_min: 0, text: "Utility reports a voltage dip during a thunderstorm." }
+  - { t_plus_min: 1, text: "Three of the four running chillers tripped. Two restarted automatically; one shows a fault and has not restarted." }
+  - { t_plus_min: 3, text: "The two standby chillers are on the same chilled-water loop as the running chillers." }
+  - { t_plus_min: 4, text: "A contractor is midway through a planned replacement of a chilled-water valve in plant room B." }
+  - { t_plus_min: 6, text: "Chilled-water supply temperature is rising. Hall 3 carries the highest IT load." }
+  - { t_plus_min: 8, text: "Night shift on site: two technicians." }
+asks:
+  - "Do we need more technicians on the night shift at our Singapore sites?"
+  - "What should we check before we let a contractor work on the chilled-water plant?"
+  - "Our standby chillers are on the same loop as the running ones. Is that a problem?"
+  - "What chilled-water temperature should trigger shedding IT load?"

@@ -1,0 +1,39 @@
+{
+  "tag": "triage:AZ-AUE-2023@1.0.0",
+  "provider": "hunyuan",
+  "model": "hy3",
+  "at": "2026-10-16T03:43:38.391Z",
+  "request": {
+    "model": "hy3",
+    "messages": [
+      {
+        "role": "system",
+        "content": "You are the duty assistant of a data-centre facility team during the first hour of an event. You apply one approved intelligence pill and nothing else.\n\nYou see only what the team knew in the first hour (\"signals\"). You do not know how the event ended.\n\nRules:\n1. Every action you recommend must come from a rule in the pill; give that rule's id. Do not invent actions or numbers.\n2. Classify: \"recurring\" if the signals clearly meet the \"when\" conditions of one or more rules; \"partly_recurring\" if some rules apply but the signals also show something no rule addresses; \"novel\" if no rule applies.\n3. Anything that matters but no rule covers goes into \"not_covered\", and then escalate.\n4. Follow the guardrails.\n5. Order next_actions by urgency.\n\nReply with JSON only:\n{\"classification\":\"recurring|partly_recurring|novel\",\"matched_rules\":[{\"rule_id\":\"R-001\",\"because\":\"...\",\"signals\":[\"SRC:S1\"]}],\"next_actions\":[{\"action\":\"...\",\"rule_id\":\"R-001\"}],\"escalate\":{\"now\":true,\"to\":\"...\",\"reason\":\"...\"},\"not_covered\":[\"...\"]}"
+      },
+      {
+        "role": "user",
+        "content": "{\"site\":\"Australia East region, one Availability Zone, two adjacent data halls (Sydney)\",\"signals\":[{\"id\":\"AZ-AUE-2023:S19\",\"t_plus_min\":0,\"text\":\"The two impacted data halls require at least four chillers to be operational.\"},{\"id\":\"AZ-AUE-2023:S20\",\"t_plus_min\":0,\"text\":\"Before the voltage sag, our cooling capacity for these halls consisted of seven chillers, with five chillers in operation and two chillers in standby.\"},{\"id\":\"AZ-AUE-2023:S78\",\"t_plus_min\":0,\"text\":\"30 August 2023 @ 08:41 UTC – Voltage sag occurred on utility power line\"},{\"id\":\"AZ-AUE-2023:S79\",\"t_plus_min\":2,\"text\":\"30 August 2023 @ 08:43 UTC – 13 chillers failed to restart automatically\"},{\"id\":\"AZ-AUE-2023:S80\",\"t_plus_min\":10,\"text\":\"30 August 2023 @ 08:51 UTC – Remote resets on chillers commenced\"},{\"id\":\"AZ-AUE-2023:S81\",\"t_plus_min\":28,\"text\":\"30 August 2023 @ 09:09 UTC – Team arrived at first group of chillers for manual restarts\"},{\"id\":\"AZ-AUE-2023:S82\",\"t_plus_min\":37,\"text\":\"30 August 2023 @ 09:18 UTC – Team arrived at second group of chillers for manual restarts\"}],\"pill\":{\"pill\":\"dc-cooling-loss@1.0.0\",\"scope\":{\"assets\":[\"data halls cooled by chilled-water plant (chillers, pumps, chilled-water loop)\",\"utility and generator power feeding that plant\"],\"not_for\":[\"IT service recovery and failover\",\"fire suppression and life safety (follow the site emergency plan)\"]},\"rules\":[],\"guardrails\":[]}}"
+      }
+    ],
+    "temperature": 0,
+    "max_tokens": 4000,
+    "response_format": {
+      "type": "json_object"
+    },
+    "thinking": {
+      "type": "disabled"
+    }
+  },
+  "response": "{\"classification\": \"novel\", \"matched_rules\": [], \"next_actions\": [], \"escalate\": {\"now\": true, \"to\": \"facility engineering on-call manager\", \"reason\": \"Voltage sag caused 13 chillers to fail restart; only 5 of 7 originally operational and 2 standby, now 13 failed to restart (exceeds the 7 known chillers) leaving insufficient cooling for two data halls requiring >=4 chillers; no pill rule covers this cooling loss event.\"}, \"not_covered\": [\"Voltage sag on utility power line at t+0\", \"13 chillers failed to restart automatically at t+2 (more than the 7 chillers known to the site)\", \"Remote resets commenced at t+10\", \"Manual restart teams arrived at t+28 and t+37\", \"Two data halls require >=4 chillers operational but current operational chiller count unknown and likely below threshold\"]}",
+  "usage": {
+    "prompt_tokens": 679,
+    "completion_tokens": 196,
+    "total_tokens": 875,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0
+    }
+  }
+}

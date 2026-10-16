@@ -1,0 +1,130 @@
+{
+  "triage": {
+    "case_id": "AWS-NRT-2019",
+    "pill": "dc-cooling-loss",
+    "pill_version": "1.2.0",
+    "classification": "recurring",
+    "matched_rules": [
+      {
+        "rule_id": "R-003",
+        "because": "The datacenter control system was in the process of failing away from one of its control hosts, which is the exact 'when' condition for treating a control-system failover as a cooling-availability event.",
+        "signals": [
+          "AWS-NRT-2019:S22"
+        ]
+      },
+      {
+        "rule_id": "R-004",
+        "because": "The control system was unavailable, operators had minimum visibility into cooling health, and cooling did not transition to maximum cooling or purge mode in part of the datacenter (purge failed), matching the 'when' conditions for manually working the cooling chain and resetting PLCs.",
+        "signals": [
+          "AWS-NRT-2019:S26",
+          "AWS-NRT-2019:S28",
+          "AWS-NRT-2019:S30"
+        ]
+      },
+      {
+        "rule_id": "R-002",
+        "because": "Mechanical cooling is down in a portion of the datacenter and EC2 servers have begun shutting down due to overheating, indicating the thermal buffer is depleting and automated shutdowns have started.",
+        "signals": [
+          "AWS-NRT-2019:S26",
+          "AWS-NRT-2019:S3"
+        ]
+      }
+    ],
+    "next_actions": [
+      {
+        "action": "Manually investigate the affected cooling equipment, check the PLCs controlling the air handling units, reset affected equipment and PLCs, and place them into a maximum cooling configuration; confirm cooling is restored and temperatures are falling before standing down.",
+        "rule_id": "R-004"
+      },
+      {
+        "action": "Treat the thermal buffer as a finite resource and act before it is depleted; expect that once the buffer is gone, temperature will exceed safe operational thresholds and automated device shutdown will begin, and recognize that in parts of the datacenter temperature can rise so quickly that hardware is damaged before it can shut down.",
+        "rule_id": "R-002"
+      },
+      {
+        "action": "Treat the control-system failover as a period of elevated risk to cooling availability and watch the cooling plant directly, not only the control system; expect that a fault in the control system logic during this exchange can make the control system unresponsive; verify that cooling systems have actually entered their designed maximum-cooling fallback rather than assuming the fallback engaged.",
+        "rule_id": "R-003"
+      }
+    ],
+    "escalate": {
+      "now": true,
+      "to": "incident commander",
+      "reason": "Temperatures are rising and servers have begun powering off (EC2 servers shut down due to overheating), which is the escalation trigger for R-004; also thermal buffer depletion is imminent or automated shutdowns have started, the escalation trigger for R-002."
+    },
+    "not_covered": []
+  },
+  "removed": [],
+  "evaluation": {
+    "case_id": "AWS-NRT-2019",
+    "pill_version": "1.2.0",
+    "per_finding": [
+      {
+        "finding": "F1",
+        "anticipated": "partly",
+        "by": [
+          "R-003"
+        ],
+        "note": "R-003 warns that a control-system fault during failover can make the control system unresponsive, but does not name the third-party logic bug or excessive device interactions as the mechanism."
+      },
+      {
+        "finding": "F2",
+        "anticipated": "yes",
+        "by": [
+          "R-003",
+          "R-004"
+        ],
+        "note": "R-003 directs verifying that cooling actually entered maximum-cooling fallback rather than assuming it did, and R-004 covers manual investigation of cooling equipment that failed to transition."
+      },
+      {
+        "finding": "F3",
+        "anticipated": "yes",
+        "by": [
+          "R-004"
+        ],
+        "note": "R-004 explicitly directs checking and resetting the PLCs controlling the air handling units, which is where the purge-mode failure originated."
+      },
+      {
+        "finding": "F4",
+        "anticipated": "yes",
+        "by": [
+          "R-003",
+          "R-004"
+        ],
+        "note": "R-003 says to watch the cooling plant directly, not only the control system, and R-004 notes operators had minimum visibility into cooling health."
+      },
+      {
+        "finding": "F5",
+        "anticipated": "yes",
+        "by": [
+          "R-004"
+        ],
+        "note": "R-004's next action is exactly to manually investigate, reset affected equipment and PLCs, and place them into maximum cooling configuration."
+      },
+      {
+        "finding": "F6",
+        "anticipated": "no",
+        "by": [],
+        "note": "The triage does not mention disabling the failover mode or any interim configuration change to prevent recurrence."
+      },
+      {
+        "finding": "F7",
+        "anticipated": "no",
+        "by": [],
+        "note": "The triage does not address training local operations teams or building confidence to reset before customer impact."
+      },
+      {
+        "finding": "F8",
+        "anticipated": "no",
+        "by": [],
+        "note": "The triage does not propose modifying air handling unit controls so purge mode bypasses the PLC controllers."
+      },
+      {
+        "finding": "F9",
+        "anticipated": "partly",
+        "by": [
+          "R-002"
+        ],
+        "note": "R-002 warns that hardware can be damaged before shutdown, pointing toward hardware failures, but does not cover the longer recovery or retirement of instances and volumes."
+      }
+    ]
+  },
+  "score": 0.5555555555555556
+}

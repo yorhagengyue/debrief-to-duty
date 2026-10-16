@@ -1,0 +1,36 @@
+id: AZ-AUE-2023
+title: "Utility voltage sag trips chillers; restart window closes as chilled-water loop heats (Azure Australia East, Sydney)"
+t0: "2023-08-30T08:41:00Z"
+operator: Microsoft Azure
+site: "Australia East region, one Availability Zone, two adjacent data halls (Sydney)"
+sources: [AZ-AUE-2023]
+early_signals:
+  - { t_plus_min: 0, sentence: "AZ-AUE-2023:S19" }
+  - { t_plus_min: 0, sentence: "AZ-AUE-2023:S20" }
+  - { t_plus_min: 0, sentence: "AZ-AUE-2023:S78" }
+  - { t_plus_min: 2, sentence: "AZ-AUE-2023:S79" }
+  - { t_plus_min: 10, sentence: "AZ-AUE-2023:S80" }
+  - { t_plus_min: 28, sentence: "AZ-AUE-2023:S81" }
+  - { t_plus_min: 37, sentence: "AZ-AUE-2023:S82" }
+debrief:
+  [AZ-AUE-2023:S6, AZ-AUE-2023:S7, AZ-AUE-2023:S12, AZ-AUE-2023:S13, AZ-AUE-2023:S14, AZ-AUE-2023:S15, AZ-AUE-2023:S16,
+   AZ-AUE-2023:S17, AZ-AUE-2023:S18, AZ-AUE-2023:S19, AZ-AUE-2023:S20, AZ-AUE-2023:S21, AZ-AUE-2023:S22, AZ-AUE-2023:S23,
+   AZ-AUE-2023:S24, AZ-AUE-2023:S25, AZ-AUE-2023:S113, AZ-AUE-2023:S114, AZ-AUE-2023:S115, AZ-AUE-2023:S116,
+   AZ-AUE-2023:S117, AZ-AUE-2023:S133]
+findings:
+  - { id: F1, kind: root_cause, sentence: "AZ-AUE-2023:S13" }
+  - { id: F2, kind: contributing_factor, sentence: "AZ-AUE-2023:S113" }
+  - { id: F3, kind: contributing_factor, sentence: "AZ-AUE-2023:S16" }
+  - { id: F4, kind: contributing_factor, sentence: "AZ-AUE-2023:S17" }
+  - { id: F5, kind: response, sentence: "AZ-AUE-2023:S22" }
+  - { id: F6, kind: response, sentence: "AZ-AUE-2023:S23" }
+  - { id: F7, kind: remediation, sentence: "AZ-AUE-2023:S114" }
+  - { id: F8, kind: remediation, sentence: "AZ-AUE-2023:S115" }
+  - { id: F9, kind: remediation, sentence: "AZ-AUE-2023:S116" }
+  - { id: F10, kind: contributing_factor, sentence: "AZ-AUE-2023:S117" }
+  - { id: F11, kind: impact, sentence: "AZ-AUE-2023:S21" }
+curation_note: >
+  Early signals stop at 09:41 UTC (one hour after the sag) and include the two sentences on the halls' chiller
+  configuration, which the site team knew before the event. The cause of the sag (a lightning strike 18 miles away)
+  is not given to triage. Debrief and findings keep the facility part of the review; storage, database and other
+  service recovery sections are left out.

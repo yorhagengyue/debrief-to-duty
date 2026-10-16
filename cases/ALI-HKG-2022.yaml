@@ -1,0 +1,35 @@
+id: ALI-HKG-2022
+title: "Chillers fail and standby chillers cannot take over on the same water loop (Alibaba Cloud, Hong Kong)"
+t0: "2022-12-18T00:56:00Z"
+operator: Alibaba Cloud (facility run by a data center infrastructure provider)
+site: "Hong Kong region, Zone C, one data center"
+sources: [ALI-HKG-2022]
+early_signals:
+  - { t_plus_min: 0, sentence: "ALI-HKG-2022:S3" }
+  - { t_plus_min: 0, sentence: "ALI-HKG-2022:S4" }
+  - { t_plus_min: 5, sentence: "ALI-HKG-2022:S5" }
+  - { t_plus_min: 13, sentence: "ALI-HKG-2022:S6" }
+  - { t_plus_min: 13, sentence: "ALI-HKG-2022:S7" }
+  - { t_plus_min: 21, sentence: "ALI-HKG-2022:S8" }
+  - { t_plus_min: 21, sentence: "ALI-HKG-2022:S9" }
+  - { t_plus_min: 21, sentence: "ALI-HKG-2022:S10" }
+  - { t_plus_min: 21, sentence: "ALI-HKG-2022:S11" }
+debrief:
+  [ALI-HKG-2022:S3, ALI-HKG-2022:S5, ALI-HKG-2022:S6, ALI-HKG-2022:S7, ALI-HKG-2022:S8, ALI-HKG-2022:S9, ALI-HKG-2022:S11,
+   ALI-HKG-2022:S13, ALI-HKG-2022:S15, ALI-HKG-2022:S16, ALI-HKG-2022:S17, ALI-HKG-2022:S18, ALI-HKG-2022:S19, ALI-HKG-2022:S20,
+   ALI-HKG-2022:S22, ALI-HKG-2022:S72, ALI-HKG-2022:S73, ALI-HKG-2022:S74, ALI-HKG-2022:S75, ALI-HKG-2022:S76, ALI-HKG-2022:S77,
+   ALI-HKG-2022:S78, ALI-HKG-2022:S79, ALI-HKG-2022:S80, ALI-HKG-2022:S82, ALI-HKG-2022:S83, ALI-HKG-2022:S84, ALI-HKG-2022:S85]
+findings:
+  - { id: F1, kind: root_cause, sentence: "ALI-HKG-2022:S72" }
+  - { id: F2, kind: contributing_factor, sentence: "ALI-HKG-2022:S73" }
+  - { id: F3, kind: contributing_factor, sentence: "ALI-HKG-2022:S74" }
+  - { id: F4, kind: response, sentence: "ALI-HKG-2022:S13" }
+  - { id: F5, kind: response, sentence: "ALI-HKG-2022:S19" }
+  - { id: F6, kind: contributing_factor, sentence: "ALI-HKG-2022:S83" }
+  - { id: F7, kind: remediation, sentence: "ALI-HKG-2022:S80" }
+  - { id: F8, kind: remediation, sentence: "ALI-HKG-2022:S85" }
+  - { id: F9, kind: remediation, sentence: "ALI-HKG-2022:S79" }
+curation_note: >
+  t0 is 08:56 HKT, the first temperature alert. Signals run to the call to the chiller manufacturer; the review gives
+  09:17 as the last timed step before load reduction at 10:30, so the untimed steps in between are set at t+21.
+  Cloud service sections are left out.

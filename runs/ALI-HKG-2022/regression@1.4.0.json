@@ -1,0 +1,219 @@
+{
+  "triage": {
+    "case_id": "ALI-HKG-2022",
+    "pill": "dc-cooling-loss",
+    "pill_version": "1.4.0",
+    "classification": "partly_recurring",
+    "matched_rules": [
+      {
+        "rule_id": "R-007",
+        "because": "A cooling failure occurred and the contingency plan called for switching to standby chillers; the standby chillers shared the same water circulation system as the active chillers, so the failover failed.",
+        "signals": [
+          "ALI-HKG-2022:S5",
+          "ALI-HKG-2022:S6",
+          "ALI-HKG-2022:S7"
+        ]
+      },
+      {
+        "rule_id": "R-002",
+        "because": "Mechanical cooling is down and the datacenter is running on its load-dependent thermal buffer; temperatures are rising and approaching safe operational thresholds.",
+        "signals": [
+          "ALI-HKG-2022:S3",
+          "ALI-HKG-2022:S5",
+          "ALI-HKG-2022:S7"
+        ]
+      },
+      {
+        "rule_id": "R-006",
+        "because": "Data center temperatures are increasing and cooling capacity is insufficient; the data center is at risk of exceeding safe operating temperatures.",
+        "signals": [
+          "ALI-HKG-2022:S3",
+          "ALI-HKG-2022:S5",
+          "ALI-HKG-2022:S7"
+        ]
+      },
+      {
+        "rule_id": "R-009",
+        "because": "Cooling system has failed and server room temperatures are rising uncontrollably; temperatures are approaching the level that could trigger the fire sprinkler system.",
+        "signals": [
+          "ALI-HKG-2022:S3",
+          "ALI-HKG-2022:S5",
+          "ALI-HKG-2022:S7"
+        ]
+      },
+      {
+        "rule_id": "R-008",
+        "because": "Chillers have been recirculated and gas discharged but will not restart; the site's chillers are configured as a bound cluster.",
+        "signals": [
+          "ALI-HKG-2022:S9",
+          "ALI-HKG-2022:S10"
+        ]
+      },
+      {
+        "rule_id": "R-011",
+        "because": "Chillers have tripped offline and are being manually restarted; the chilled-water loop serving those chillers has been sitting without cooling.",
+        "signals": [
+          "ALI-HKG-2022:S9",
+          "ALI-HKG-2022:S10"
+        ]
+      },
+      {
+        "rule_id": "R-012",
+        "because": "Chillers supporting a data hall have tripped offline; the data hall requires a minimum number of operational chillers to stay within thermal thresholds.",
+        "signals": [
+          "ALI-HKG-2022:S5",
+          "ALI-HKG-2022:S6",
+          "ALI-HKG-2022:S7"
+        ]
+      },
+      {
+        "rule_id": "R-013",
+        "because": "Chillers cannot be restarted because the chilled-water loop is too hot; data hall temperatures are continuing to increase.",
+        "signals": [
+          "ALI-HKG-2022:S7",
+          "ALI-HKG-2022:S10"
+        ]
+      },
+      {
+        "rule_id": "R-014",
+        "because": "A voltage event has tripped multiple chillers and manual restart is required; the Chiller Management System has not yet been changed to prevent restart failures.",
+        "signals": [
+          "ALI-HKG-2022:S5",
+          "ALI-HKG-2022:S6",
+          "ALI-HKG-2022:S9"
+        ]
+      }
+    ],
+    "next_actions": [
+      {
+        "action": "Immediately verify that mechanical cooling systems are still running, rather than assuming surge suppressors protected them; if mechanical cooling has shut down, treat the datacenter as being on a load-dependent thermal buffer and start planning for its depletion; transfer the rest of the datacenter to generators to stabilize the power supply while storms are still active.",
+        "rule_id": "R-001"
+      },
+      {
+        "action": "Treat the thermal buffer as a finite resource and act before it is depleted; expect that once the buffer is gone, temperature will exceed safe operational thresholds and automated device shutdown will begin; recognize that in parts of the datacenter temperature can rise so quickly that hardware is damaged before it can shut down.",
+        "rule_id": "R-002"
+      },
+      {
+        "action": "Do not assume standby chillers will take over; confirm the standby plant draws from an independent water circuit before relying on it; if the standby shares the same water loop, treat the failover as likely to fail and move directly to auxiliary heat dissipation and ventilation measures; notify the chiller manufacturer early rather than waiting for the failover to prove ineffective.",
+        "rule_id": "R-007"
+      },
+      {
+        "action": "Progressively decrease the thermal load within the data center space; consider terminating non-critical workloads such as Preemptible VMs to reduce thermal load and ensure space for zonal failover activities; if thermal load reduction is insufficient, power down servers to prevent an even longer outage and further impact to infrastructure.",
+        "rule_id": "R-006"
+      },
+      {
+        "action": "Begin reducing loads on computing, storage, network, database, and big data clusters to slow temperature rise; shut down servers in rooms with high temperature; treat sprinkler activation as a risk that can damage power supply cabinets and server racks and complicate restoration.",
+        "rule_id": "R-009"
+      },
+      {
+        "action": "Recognize that individual chiller restart will not work while the chillers remain bound into a cluster; plan to manually modify chiller configurations to unbind them from the cluster so each can be restarted individually; expect that restarting chillers one after another will slow restoration of the whole cooling system.",
+        "rule_id": "R-008"
+      },
+      {
+        "action": "Recognize that once loop water reaches elevated temperatures the chiller self-protection mechanism will inhibit restart to prevent damage; prioritize restarting the chillers that serve the most thermally exposed data halls before the loop heats past the restart limit; if restart is inhibited, plan to reduce the thermal load so the loop can cool, rather than repeatedly attempting restart.",
+        "rule_id": "R-011"
+      },
+      {
+        "action": "Count how many chillers each impacted data hall still has running against its minimum requirement; treat any data hall below its minimum as being in thermal runaway risk and act on load before temperatures climb; account for standby chillers separately from running chillers when judging margin.",
+        "rule_id": "R-012"
+      },
+      {
+        "action": "Reduce the thermal load by shutting down networking, compute, and storage infrastructure in the impacted data halls; treat this shutdown as the means to bring the chilled-water loop back to a safe temperature so chillers can be restarted; accept the loss of service availability in the affected zone as the cost of protecting data durability and infrastructure health.",
+        "rule_id": "R-013"
+      },
+      {
+        "action": "Increase technician staffing at the datacenter so manual restart procedures can be executed promptly; assign teams so restarts can proceed in parallel across data halls rather than sequentially; treat staffing as a temporary mitigation until the control timing logic change is in place.",
+        "rule_id": "R-014"
+      }
+    ],
+    "escalate": {
+      "now": true,
+      "to": "incident commander",
+      "reason": "Thermal buffer depletion is imminent or automated shutdowns have started; simultaneous failure of redundant cooling systems and rising temperatures; temperatures continue to rise despite initial load reduction; chillers remain blocked from restart by high loop temperature."
+    },
+    "not_covered": [
+      "No rule addresses the specific scenario of chiller malfunction due to air entering the cooling system from lack of water, which is the root cause here.",
+      "No rule covers the situation where the chiller manufacturer is notified but the issue remains unsolved after multiple attempts.",
+      "No rule addresses the coordination with the data center infrastructure provider's engineers for manual isolation and restoration of chillers."
+    ]
+  },
+  "removed": [],
+  "evaluation": {
+    "case_id": "ALI-HKG-2022",
+    "pill_version": "1.4.0",
+    "per_finding": [
+      {
+        "finding": "F1",
+        "anticipated": "no",
+        "by": [],
+        "note": "The triage does not mention air entering the cooling system due to lack of water as the root cause."
+      },
+      {
+        "finding": "F2",
+        "anticipated": "yes",
+        "by": [
+          "R-007"
+        ],
+        "note": "R-007 explicitly warns that standby chillers may share the same water circuit and failover will fail."
+      },
+      {
+        "finding": "F3",
+        "anticipated": "yes",
+        "by": [
+          "R-008"
+        ],
+        "note": "R-008 states individual chiller restart will not work while chillers are bound into a cluster and calls for unbinding."
+      },
+      {
+        "finding": "F4",
+        "anticipated": "yes",
+        "by": [
+          "R-006",
+          "R-009"
+        ],
+        "note": "R-006 and R-009 direct reducing loads on computing, storage, network, database, and big data clusters to slow temperature rise."
+      },
+      {
+        "finding": "F5",
+        "anticipated": "yes",
+        "by": [
+          "R-008"
+        ],
+        "note": "R-008 directs manually modifying chiller configurations to unbind them from the cluster so each can be restarted individually."
+      },
+      {
+        "finding": "F6",
+        "anticipated": "yes",
+        "by": [
+          "R-009"
+        ],
+        "note": "R-009 treats sprinkler activation as a risk that can damage power supply cabinets and server racks and complicate restoration."
+      },
+      {
+        "finding": "F7",
+        "anticipated": "yes",
+        "by": [
+          "R-007"
+        ],
+        "note": "R-007 already applies the practice of confirming standby plant independence and not assuming failover will work."
+      },
+      {
+        "finding": "F8",
+        "anticipated": "yes",
+        "by": [
+          "R-006",
+          "R-009",
+          "R-013"
+        ],
+        "note": "The triage already applies standardized load-reduction and shutdown actions, though it does not explicitly call for a contingency plan update."
+      },
+      {
+        "finding": "F9",
+        "anticipated": "no",
+        "by": [],
+        "note": "No rule in the triage addresses expanding monitoring metrics or improving troubleshooting efficiency."
+      }
+    ]
+  },
+  "score": 0.7777777777777778
+}

@@ -1,0 +1,12 @@
+{
+  "question": "Do we need more technicians on the night shift at our Singapore sites?",
+  "pill_version": "1.4.0",
+  "answer": "The pill does not answer whether Singapore night-shift sites need more technicians. It contains no site-specific staffing requirement, no night-shift rule, and no Singapore-specific content. The closest relevant rule is R-014, which says to increase technician staffing at the datacenter as a temporary mitigation when a voltage event has tripped multiple chillers and manual restart is required, and the Chiller Management System has not yet been changed to prevent restart failures — with teams assigned so restarts can proceed in parallel across data halls rather than sequentially. That rule is triggered by a voltage event and pending control-logic change, not by shift or geography, so it cannot be used to justify a standing night-shift headcount decision. R-010 also notes that staffing at the time would have been sufficient to prevent impact if a load-based restart sequence had been followed, which points to sequencing and procedure rather than raw headcount.",
+  "relies_on": [
+    "R-014",
+    "R-010"
+  ],
+  "not_in_pill": "No rule, guardrail or open question addresses night-shift staffing levels, Singapore sites, or a standing minimum technician count. Q-004 and Q-012 ask for time/temperature thresholds that would trigger escalation and shutdown decisions, but neither sets staffing.",
+  "decide_with": "facility operations lead (pill owner) — staffing decisions sit with the facility operations lead per R-014's escalation path; the pill owner should confirm whether any site-specific staffing requirement exists outside this pill.",
+  "removed_by_checks": []
+}

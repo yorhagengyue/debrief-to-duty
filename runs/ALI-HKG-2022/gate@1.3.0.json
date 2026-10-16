@@ -1,0 +1,38 @@
+[
+  {
+    "case_id": "AZ-SCUS-2018",
+    "blind_version": null,
+    "blind": 0,
+    "base_version": "1.2.0",
+    "base": 0.5714285714285714,
+    "candidate": 0.6428571428571429,
+    "regressed": false
+  },
+  {
+    "case_id": "AWS-NRT-2019",
+    "blind_version": "1.0.0",
+    "blind": 0.2777777777777778,
+    "base_version": "1.2.0",
+    "base": 0.5555555555555556,
+    "candidate": 0.3333333333333333,
+    "regressed": true
+  },
+  {
+    "case_id": "GCP-LDN-2022",
+    "blind_version": "1.1.0",
+    "blind": 0.08333333333333333,
+    "base_version": "1.2.0",
+    "base": 0.3333333333333333,
+    "candidate": 0.3333333333333333,
+    "regressed": false
+  },
+  {
+    "case_id": "ALI-HKG-2022",
+    "blind_version": "1.2.0",
+    "blind": 0.2222222222222222,
+    "base_version": "1.2.0",
+    "base": 0.2222222222222222,
+    "candidate": 0.6666666666666666,
+    "regressed": false
+  }
+]

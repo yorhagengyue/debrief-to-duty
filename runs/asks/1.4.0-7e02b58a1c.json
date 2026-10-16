@@ -1,0 +1,12 @@
+{
+  "question": "Our standby chillers are on the same loop as the running ones. Is that a problem?",
+  "pill_version": "1.4.0",
+  "answer": "Yes — the pill treats shared-loop standby chillers as a known failure mode, not a safe redundancy. R-007 says that when standby chillers share a water circulation system with the active chillers, you must not assume they will take over: confirm the standby plant draws from an independent water circuit before relying on it, and if it shares the same loop, treat the failover as likely to fail and move directly to auxiliary heat dissipation and ventilation measures. G-007 reinforces this: do not assume automatic failover to standby cooling will work, and verify both automatic and manual failover effectiveness before relying on them. The recorded reason is that air entered the cooling system due to lack of water and affected the active chillers, but the standby chillers used the same water circulation system, so the failover failed. Escalation per R-007 is to the facility operations lead and the chiller manufacturer once standby chillers are confirmed to share the same water circulation system as the failed active chillers.",
+  "relies_on": [
+    "R-007",
+    "G-007"
+  ],
+  "not_in_pill": "The pill does not state whether your specific standby chillers are on an independent circuit, nor does it give a procedure or acceptance test for proving independence. Q-010 (metrics to detect air ingress or water loss earlier and their alarm thresholds) is the closest open question.",
+  "decide_with": "facility operations lead and chiller manufacturer (per R-007 escalation)",
+  "removed_by_checks": []
+}

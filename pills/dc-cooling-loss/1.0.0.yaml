@@ -1,0 +1,99 @@
+id: dc-cooling-loss
+name: "Data hall cooling loss: first-hour judgement"
+version: 1.0.0
+status: superseded
+effective_from: 2018-10-04T08:42:00.000Z
+owner:
+  role: Critical Facilities Engineering Lead
+  name: Pill owner (role-played in this replay)
+  role_played: true
+scope:
+  assets:
+    - data halls cooled by chilled-water plant (chillers, pumps, chilled-water loop)
+    - utility and generator power feeding that plant
+  not_for:
+    - IT service recovery and failover
+    - fire suppression and life safety (follow the site emergency plan)
+context: "Know-how for the first hour after cooling capacity is lost or at risk in a data hall: what to check, what to do next, and when a person must decide. Every rule cites the incident review sentences it comes from."
+rules:
+  - id: R-001
+    title: Treat utility voltage swells as a cooling-plant threat, not just a power-transfer event
+    when:
+      - storms are active in the area and the utility feed shows voltage sags or swells
+      - a portion of the datacenter has transferred from utility power to generator power
+    then:
+      - immediately verify that mechanical cooling systems are still running, rather than assuming surge suppressors protected them
+      - if mechanical cooling has shut down, treat the datacenter as being on a load-dependent thermal buffer and start planning for its depletion
+      - transfer the rest of the datacenter to generators to stabilize the power supply while storms are still active
+    why: Voltage swells triggered a transfer to generator power and also shut down the mechanical cooling systems despite surge suppressors being in place; the site initially survived only on a load-dependent thermal buffer.
+    escalate:
+      to: facility operations lead and cooling plant engineer
+      trigger: mechanical cooling confirmed shut down while storms remain active in the area
+    evidence:
+      - AZ-SCUS-2018:S6
+      - AZ-SCUS-2018:S7
+      - AZ-SCUS-2018:S8
+      - AZ-SCUS-2018:S9
+      - AZ-SCUS-2018:S10
+      - AZ-SCUS-2018:S14
+    learned_from:
+      - AZ-SCUS-2018
+    since: 1.0.0
+  - id: R-002
+    title: Act on thermal buffer depletion before automated shutdowns begin
+    when:
+      - mechanical cooling is down and the datacenter is running on its load-dependent thermal buffer
+      - datacenter temperature is approaching safe operational thresholds
+    then:
+      - treat the thermal buffer as a finite resource and act before it is depleted
+      - expect that once the buffer is gone, temperature will exceed safe operational thresholds and automated device shutdown will begin
+      - recognize that in parts of the datacenter temperature can rise so quickly that hardware is damaged before it can shut down
+    why: Once the thermal buffer was depleted the datacenter exceeded safe operational thresholds and automated shutdown began, but temperatures rose so quickly in places that some hardware was damaged before it could shut down.
+    escalate:
+      to: incident commander
+      trigger: thermal buffer depletion is imminent or automated shutdowns have started
+    evidence:
+      - AZ-SCUS-2018:S10
+      - AZ-SCUS-2018:S11
+      - AZ-SCUS-2018:S12
+    learned_from:
+      - AZ-SCUS-2018
+    since: 1.0.0
+guardrails:
+  - id: G-001
+    text: Do not rely on surge suppressors alone to keep mechanical cooling available during utility voltage swells; the review records that cooling shut down despite surge suppressors being in place.
+    evidence:
+      - AZ-SCUS-2018:S9
+    since: 1.0.0
+  - id: G-002
+    text: Do not assume onsite redundancies make customer workloads safe from a datacenter cooling failure; the review states there are scenarios in which a cooling failure can impact customer workloads in the affected datacenter.
+    evidence:
+      - AZ-SCUS-2018:S21
+    since: 1.0.0
+open_questions:
+  - id: Q-001
+    question: What is the safe operational temperature threshold for this datacenter, and what is the expected time from thermal buffer depletion to that threshold under the site's load-dependent thermal buffer design?
+    why: The review refers to safe operational thresholds and a load-dependent thermal buffer but gives no numbers, so a duty team cannot judge how much time it has before automated shutdowns and hardware damage begin.
+    raised_by: AZ-SCUS-2018
+    since: 1.0.0
+  - id: Q-002
+    question: What specific recovery procedures must be followed after a cooling failure that damaged storage servers, network devices and power units, and who decides when the datacenter is safe to return to normal operation?
+    why: The review calls for a thorough review of the datacenter recovery procedures but does not state what those procedures are or who owns the decision.
+    raised_by: AZ-SCUS-2018
+    since: 1.0.0
+  - id: Q-003
+    question: What hardware design changes to storage scale units are required to increase resiliency to environmental factors such as rapid temperature rise?
+    why: The review identifies an evaluation of future hardware design of storage scale units as a remediation theme but does not specify the design requirements.
+    raised_by: AZ-SCUS-2018
+    since: 1.0.0
+regression_cases:
+  - AZ-SCUS-2018
+approvals:
+  - by: Head of Critical Facilities (role-played)
+    role: Approver
+    role_played: true
+    at: 2018-10-04T08:42:00.000Z
+    decision: approve
+    note: Regression gate passed on 1 incident(s) against vnone.
+changelog:
+  - "1.0.0: R-001 added from AZ-SCUS-2018: Treat utility voltage swells as a cooling-plant threat, not just a power-transfer event; R-002 added from AZ-SCUS-2018: Act on thermal buffer depletion before automated shutdowns begin; G-001 added from AZ-SCUS-2018; G-002 added from AZ-SCUS-2018; Q-001 raised by AZ-SCUS-2018; Q-002 raised by AZ-SCUS-2018; Q-003 raised by AZ-SCUS-2018"

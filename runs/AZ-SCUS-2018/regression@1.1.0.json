@@ -1,0 +1,122 @@
+{
+  "triage": {
+    "case_id": "AZ-SCUS-2018",
+    "pill": "dc-cooling-loss",
+    "pill_version": "1.1.0",
+    "classification": "partly_recurring",
+    "matched_rules": [
+      {
+        "rule_id": "R-001",
+        "because": "Storms are active (lightning caused voltage swells), a portion of the datacenter transferred to generator power, and mechanical cooling shut down despite surge suppressors.",
+        "signals": [
+          "AZ-SCUS-2018:S7",
+          "AZ-SCUS-2018:S8",
+          "AZ-SCUS-2018:S9"
+        ]
+      },
+      {
+        "rule_id": "R-002",
+        "because": "Mechanical cooling is down and the datacenter is running on its load-dependent thermal buffer; customer impact began when storage servers shut down due to unsafe temperatures, indicating the buffer was depleted and automated shutdowns started.",
+        "signals": [
+          "AZ-SCUS-2018:S9",
+          "AZ-SCUS-2018:S10",
+          "AZ-SCUS-2018:S25"
+        ]
+      }
+    ],
+    "next_actions": [
+      {
+        "action": "Immediately verify that mechanical cooling systems are still running, rather than assuming surge suppressors protected them.",
+        "rule_id": "R-001"
+      },
+      {
+        "action": "If mechanical cooling has shut down, treat the datacenter as being on a load-dependent thermal buffer and start planning for its depletion.",
+        "rule_id": "R-001"
+      },
+      {
+        "action": "Transfer the rest of the datacenter to generators to stabilize the power supply while storms are still active.",
+        "rule_id": "R-001"
+      },
+      {
+        "action": "Treat the thermal buffer as a finite resource and act before it is depleted.",
+        "rule_id": "R-002"
+      },
+      {
+        "action": "Expect that once the buffer is gone, temperature will exceed safe operational thresholds and automated device shutdown will begin.",
+        "rule_id": "R-002"
+      },
+      {
+        "action": "Recognize that in parts of the datacenter temperature can rise so quickly that hardware is damaged before it can shut down.",
+        "rule_id": "R-002"
+      }
+    ],
+    "escalate": {
+      "now": true,
+      "to": "facility operations lead and cooling plant engineer",
+      "reason": "Mechanical cooling confirmed shut down while storms remain active in the area (R-001 trigger)."
+    },
+    "not_covered": [
+      "No rule addresses the specific scenario of lightning-induced voltage swells causing both a power transfer and a cooling shutdown despite surge suppressors, nor the subsequent customer impact from storage server shutdowns due to unsafe temperatures."
+    ]
+  },
+  "removed": [],
+  "evaluation": {
+    "case_id": "AZ-SCUS-2018",
+    "pill_version": "1.1.0",
+    "per_finding": [
+      {
+        "finding": "F1",
+        "anticipated": "yes",
+        "by": [
+          "R-001"
+        ],
+        "note": "R-001 names lightning-induced voltage swells shutting down mechanical cooling despite surge suppressors, and directs verifying cooling rather than assuming suppressors protected it."
+      },
+      {
+        "finding": "F2",
+        "anticipated": "yes",
+        "by": [
+          "R-002"
+        ],
+        "note": "R-002 states the buffer is finite and that once depleted, temperature exceeds safe thresholds and automated device shutdown begins."
+      },
+      {
+        "finding": "F3",
+        "anticipated": "yes",
+        "by": [
+          "R-002"
+        ],
+        "note": "R-002 explicitly warns that in parts of the datacenter temperature can rise so quickly hardware is damaged before it can shut down."
+      },
+      {
+        "finding": "F4",
+        "anticipated": "yes",
+        "by": [
+          "R-001"
+        ],
+        "note": "R-001 next action directs transferring the rest of the datacenter to generators while storms are still active."
+      },
+      {
+        "finding": "F5",
+        "anticipated": "partly",
+        "by": [
+          "R-002"
+        ],
+        "note": "R-002 anticipates automated shutdowns and hardware damage from rapid temperature rise, but does not identify storage servers, network devices, or power units as the impacted equipment."
+      },
+      {
+        "finding": "F6",
+        "anticipated": "no",
+        "by": [],
+        "note": "No rule calls for forensic analysis of impacted hardware or a review of recovery procedures."
+      },
+      {
+        "finding": "F7",
+        "anticipated": "no",
+        "by": [],
+        "note": "No rule addresses evaluating future hardware design of storage scale units for environmental resiliency."
+      }
+    ]
+  },
+  "score": 0.6428571428571429
+}
