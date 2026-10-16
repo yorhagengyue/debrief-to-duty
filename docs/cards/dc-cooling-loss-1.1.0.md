@@ -1,0 +1,298 @@
+# Data hall cooling loss: first-hour judgement
+
+| | |
+|---|---|
+| Pill | `dc-cooling-loss` |
+| Version | 1.1.0 (supersedes 1.0.0) |
+| Status | superseded |
+| Owner | Critical Facilities Engineering Lead: Pill owner (role-played in this replay) |
+| Effective from | 2019-09-22T03:36:00.000Z |
+
+Know-how for the first hour after cooling capacity is lost or at risk in a data hall: what to check, what to do next, and when a person must decide. Every rule cites the incident review sentences it comes from.
+
+## Scope
+
+Covers:
+
+- data halls cooled by chilled-water plant (chillers, pumps, chilled-water loop)
+- utility and generator power feeding that plant
+
+Not for:
+
+- IT service recovery and failover
+- fire suppression and life safety (follow the site emergency plan)
+
+## Rules (4)
+
+### R-001. Treat utility voltage swells as a cooling-plant threat, not just a power-transfer event
+
+*Since 1.0.0; learned from AZ-SCUS-2018.*
+
+**When**
+
+- storms are active in the area and the utility feed shows voltage sags or swells
+- a portion of the datacenter has transferred from utility power to generator power
+
+**Then**
+
+- immediately verify that mechanical cooling systems are still running, rather than assuming surge suppressors protected them
+- if mechanical cooling has shut down, treat the datacenter as being on a load-dependent thermal buffer and start planning for its depletion
+- transfer the rest of the datacenter to generators to stabilize the power supply while storms are still active
+
+**Why**
+
+Voltage swells triggered a transfer to generator power and also shut down the mechanical cooling systems despite surge suppressors being in place; the site initially survived only on a load-dependent thermal buffer.
+
+**Escalate**
+
+To facility operations lead and cooling plant engineer, when mechanical cooling confirmed shut down while storms remain active in the area.
+
+**Evidence**
+
+- `AZ-SCUS-2018:S6`
+  > Multiple Azure datacenters in the region saw voltage sags and swells across the utility feeds.
+- `AZ-SCUS-2018:S7`
+  > At 08:42 UTC, lightning caused electrical activity on the utility supply, which caused significant voltage swells.
+- `AZ-SCUS-2018:S8`
+  > These swells triggered a portion of one Azure datacenter to transfer from utility power to generator power.
+- `AZ-SCUS-2018:S9`
+  > Additionally, these power swells shutdown the datacenter’s mechanical cooling systems despite having surge suppressors in place.
+- `AZ-SCUS-2018:S10`
+  > Initially, the datacenter was able to maintain its operational temperatures through a load dependent thermal buffer that was designed within the cooling system.
+- `AZ-SCUS-2018:S14`
+  > While storms were still active in the area, onsite teams took a series of actions to prevent further damage – including transferring the rest of the datacenter to generators thereby stabilizing the power supply.
+
+### R-002. Act on thermal buffer depletion before automated shutdowns begin
+
+*Since 1.0.0; learned from AZ-SCUS-2018.*
+
+**When**
+
+- mechanical cooling is down and the datacenter is running on its load-dependent thermal buffer
+- datacenter temperature is approaching safe operational thresholds
+
+**Then**
+
+- treat the thermal buffer as a finite resource and act before it is depleted
+- expect that once the buffer is gone, temperature will exceed safe operational thresholds and automated device shutdown will begin
+- recognize that in parts of the datacenter temperature can rise so quickly that hardware is damaged before it can shut down
+
+**Why**
+
+Once the thermal buffer was depleted the datacenter exceeded safe operational thresholds and automated shutdown began, but temperatures rose so quickly in places that some hardware was damaged before it could shut down.
+
+**Escalate**
+
+To incident commander, when thermal buffer depletion is imminent or automated shutdowns have started.
+
+**Evidence**
+
+- `AZ-SCUS-2018:S10`
+  > Initially, the datacenter was able to maintain its operational temperatures through a load dependent thermal buffer that was designed within the cooling system.
+- `AZ-SCUS-2018:S11`
+  > However, once this thermal buffer was depleted the datacenter temperature exceeded safe operational thresholds, and an automated shutdown of devices was initiated.
+- `AZ-SCUS-2018:S12`
+  > This shutdown mechanism is intended to preserve infrastructure and data integrity, but in this instance, temperatures increased so quickly in parts of the datacenter that some hardware was damaged before it could shut down.
+
+### R-003. Treat a control-system failover as a cooling-availability event, not a routine maintenance action
+
+*Since 1.1.0; learned from AWS-NRT-2019.*
+
+**When**
+
+- the datacenter control system is in the process of failing away from one of its control hosts
+- the control system is exchanging state information with other control systems and with cooling equipment and temperature sensors
+
+**Then**
+
+- treat the failover as a period of elevated risk to cooling availability and watch the cooling plant directly, not only the control system
+- expect that a fault in the control system logic during this exchange can make the control system unresponsive
+- verify that cooling systems have actually entered their designed maximum-cooling fallback rather than assuming the fallback engaged
+
+**Why**
+
+The control system was mid-failover when a bug in third-party control logic caused excessive interactions with datacenter devices and left the control system unresponsive; the designed fallback to maximum cooling did not engage everywhere.
+
+**Escalate**
+
+To facility operations lead and cooling plant engineer, when control system failover in progress or control system confirmed unresponsive.
+
+**Evidence**
+
+- `AWS-NRT-2019:S22`
+  > Just prior to the event, the datacenter control system was in the process of failing away from one of the control hosts.
+- `AWS-NRT-2019:S23`
+  > During this kind of failover, the control system has to exchange information with other control systems and the datacenter equipment it controls (e.g., the cooling equipment and temperature sensors throughout the datacenter) to ensure that the new control host has the most up-to-date information about the state of the datacenter.
+- `AWS-NRT-2019:S24`
+  > Due to a bug in the third-party control system logic, this exchange resulted in excessive interactions between the control system and the devices in the datacenter which ultimately resulted in the control system becoming unresponsive.
+- `AWS-NRT-2019:S25`
+  > Our datacenters are designed such that if the datacenter control system fails, the cooling systems go into maximum cooling mode until the control system functionality is restored.
+- `AWS-NRT-2019:S26`
+  > While this worked correctly in most of the datacenter, in a small portion of the datacenter, the cooling system did not correctly transition to this safe cooling configuration and instead shut down.
+
+### R-004. When the control system is down, work the cooling chain by hand and reset the PLCs
+
+*Since 1.1.0; learned from AWS-NRT-2019.*
+
+**When**
+
+- the datacenter control system is unavailable and operators have minimum visibility into cooling health and state
+- cooling has not transitioned to maximum cooling or purge mode in part of the datacenter
+
+**Then**
+
+- do not wait for the control system to come back; manually investigate the affected cooling equipment
+- check the Programmable Logic Controllers controlling the air handling units, since they can be unresponsive even when the control system is the visible failure
+- reset the affected equipment and PLCs and place them into a maximum cooling configuration
+- confirm cooling is restored and temperatures are falling before standing down
+
+**Why**
+
+The control system was unavailable, purge failed, and recovery required manually investigating and resetting all affected equipment into maximum cooling; the unresponsive PLCs controlling some air handling units were what prevented both default cooling and purge from working.
+
+**Escalate**
+
+To incident commander, when temperatures are rising and servers have begun powering off.
+
+**Evidence**
+
+- `AWS-NRT-2019:S28`
+  > The team attempted to activate purge in the affected areas of the datacenter, but this also failed.
+- `AWS-NRT-2019:S29`
+  > At this point, temperatures began to rise in the affected part of the datacenter and servers began to power off when they became too hot.
+- `AWS-NRT-2019:S30`
+  > Because the datacenter control system was unavailable, the operations team had minimum visibility into the health and state of the datacenter cooling systems.
+- `AWS-NRT-2019:S31`
+  > To recover, the team had to manually investigate and reset all of the affected pieces of equipment and put them into a maximum cooling configuration.
+- `AWS-NRT-2019:S32`
+  > During this process, it was discovered that the PLCs controlling some of the air handling units were also unresponsive.
+- `AWS-NRT-2019:S33`
+  > These controllers needed to be reset.
+- `AWS-NRT-2019:S34`
+  > It was the failure of these PLC controllers which prevented the default cooling and “purge” mode from correctly working.
+- `AWS-NRT-2019:S35`
+  > After these controllers were reset, cooling was restored to the affected area of the datacenter and temperatures began to decrease.
+
+## Guardrails (5)
+
+### G-001
+
+*Since 1.0.0.*
+
+Do not rely on surge suppressors alone to keep mechanical cooling available during utility voltage swells; the review records that cooling shut down despite surge suppressors being in place.
+
+**Evidence**
+
+- `AZ-SCUS-2018:S9`
+  > Additionally, these power swells shutdown the datacenter’s mechanical cooling systems despite having surge suppressors in place.
+
+### G-002
+
+*Since 1.0.0.*
+
+Do not assume onsite redundancies make customer workloads safe from a datacenter cooling failure; the review states there are scenarios in which a cooling failure can impact customer workloads in the affected datacenter.
+
+**Evidence**
+
+- `AZ-SCUS-2018:S21`
+  > Despite onsite redundancies, there are scenarios in which a datacenter cooling failure can impact customer workloads in the affected datacenter.
+
+### G-003
+
+*Since 1.1.0.*
+
+Do not treat purge mode as a guaranteed independent fallback while PLCs may be unresponsive; the review records that purge failed in the affected areas because the PLC controllers were unresponsive, and that purge is only being modified to bypass PLCs in newer designs.
+
+**Evidence**
+
+- `AWS-NRT-2019:S27`
+  > As an added safeguard, our datacenter operators have the ability to bypass the datacenter control systems and put our cooling system in “purge” mode to quickly exhaust hot air in the event of a malfunction.
+- `AWS-NRT-2019:S28`
+  > The team attempted to activate purge in the affected areas of the datacenter, but this also failed.
+- `AWS-NRT-2019:S34`
+  > It was the failure of these PLC controllers which prevented the default cooling and “purge” mode from correctly working.
+- `AWS-NRT-2019:S39`
+  > Finally, we are working to modify the way that we control the impacted air handling units to ensure that “purge mode” is able to bypass the PLC controllers completely.
+- `AWS-NRT-2019:S40`
+  > This is an approach we have begun using in our newest datacenter designs and will make us even more confident that “purge mode” will work even if PLCs become unresponsive.
+
+### G-004
+
+*Since 1.1.0.*
+
+Do not rely on the datacenter control system for visibility into cooling health during a control-system failure; the review records that the operations team had minimum visibility into cooling health and state while the control system was unavailable.
+
+**Evidence**
+
+- `AWS-NRT-2019:S30`
+  > Because the datacenter control system was unavailable, the operations team had minimum visibility into the health and state of the datacenter cooling systems.
+
+### G-005
+
+*Since 1.1.0.*
+
+Do not assume the control-system failover mode that triggered this bug is available; the review records that this failover mode has been disabled in the interim to prevent recurrence.
+
+**Evidence**
+
+- `AWS-NRT-2019:S37`
+  > In the interim, we have disabled the failover mode that triggered this bug on our control systems to ensure we do not have a recurrence of this issue.
+
+## Open questions (6)
+
+### Q-001
+
+*Raised by AZ-SCUS-2018, since 1.0.0.*
+
+**Question.** What is the safe operational temperature threshold for this datacenter, and what is the expected time from thermal buffer depletion to that threshold under the site's load-dependent thermal buffer design?
+
+**Why it matters.** The review refers to safe operational thresholds and a load-dependent thermal buffer but gives no numbers, so a duty team cannot judge how much time it has before automated shutdowns and hardware damage begin.
+
+### Q-002
+
+*Raised by AZ-SCUS-2018, since 1.0.0.*
+
+**Question.** What specific recovery procedures must be followed after a cooling failure that damaged storage servers, network devices and power units, and who decides when the datacenter is safe to return to normal operation?
+
+**Why it matters.** The review calls for a thorough review of the datacenter recovery procedures but does not state what those procedures are or who owns the decision.
+
+### Q-003
+
+*Raised by AZ-SCUS-2018, since 1.0.0.*
+
+**Question.** What hardware design changes to storage scale units are required to increase resiliency to environmental factors such as rapid temperature rise?
+
+**Why it matters.** The review identifies an evaluation of future hardware design of storage scale units as a remediation theme but does not specify the design requirements.
+
+### Q-004
+
+*Raised by AWS-NRT-2019, since 1.1.0.*
+
+**Question.** What is the maximum time the site can run with cooling down before hardware damage or customer impact, and what temperature or time threshold should trigger escalation and manual PLC reset?
+
+**Why it matters.** The review describes temperatures rising and servers powering off but gives no threshold or time limit; the pill cannot tell a duty team when to escalate without a number that is not in the cited sentences.
+
+### Q-005
+
+*Raised by AWS-NRT-2019, since 1.1.0.*
+
+**Question.** What is the approved procedure and authority for manually resetting PLCs and air handling units when the control system is unavailable, and who decides to do it?
+
+**Why it matters.** The review records that the team had to manually investigate and reset equipment, but does not state the procedure, the authority, or the decision trigger; the pill must not guess these.
+
+### Q-006
+
+*Raised by AWS-NRT-2019, since 1.1.0.*
+
+**Question.** How should operators identify and remediate this specific control-system failover bug, and what evidence confirms the situation has recurred?
+
+**Why it matters.** The review states local operations teams were trained to quickly identify and remediate this situation, but does not describe the identifying signs or the remediation steps; the pill cannot encode them without that detail.
+
+## Approvals
+
+- **approve** by Head of Critical Facilities (role-played), Approver at 2019-09-22T03:36:00.000Z — Regression gate passed on 2 incident(s) against v1.0.0.
+
+## Changelog
+
+- 1.0.0: R-001 added from AZ-SCUS-2018: Treat utility voltage swells as a cooling-plant threat, not just a power-transfer event; R-002 added from AZ-SCUS-2018: Act on thermal buffer depletion before automated shutdowns begin; G-001 added from AZ-SCUS-2018; G-002 added from AZ-SCUS-2018; Q-001 raised by AZ-SCUS-2018; Q-002 raised by AZ-SCUS-2018; Q-003 raised by AZ-SCUS-2018
+- 1.1.0: R-003 added from AWS-NRT-2019: Treat a control-system failover as a cooling-availability event, not a routine maintenance action; R-004 added from AWS-NRT-2019: When the control system is down, work the cooling chain by hand and reset the PLCs; G-003 added from AWS-NRT-2019; G-004 added from AWS-NRT-2019; G-005 added from AWS-NRT-2019; Q-004 raised by AWS-NRT-2019; Q-005 raised by AWS-NRT-2019; Q-006 raised by AWS-NRT-2019

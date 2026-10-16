@@ -1,4 +1,8 @@
+import { mkdirSync, writeFileSync } from "node:fs";
+import { dirname, join, relative } from "node:path";
 import { Ledger } from "./audit.ts";
+import { diffPills, renderCard, renderDiff } from "./card.ts";
+import { ROOT, sentenceIndex } from "./sources.ts";
 import { decide, rollback } from "./engine.ts";
 import { loadPills } from "./store.ts";
 import { PILL_ID, replay } from "./replay.ts";
@@ -67,8 +71,34 @@ A: ${r.answer}
       console.log(new Ledger().verify());
       break;
     }
+    case "card": {
+      const p = loadPills(PILL_ID).find((x) => x.version === args[0]);
+      if (!p) throw new Error(`no version ${args[0]}`);
+      const f = join(ROOT, "docs", "cards", `${PILL_ID}-${p.version}.md`);
+      mkdirSync(dirname(f), { recursive: true });
+      writeFileSync(f, renderCard(p, sentenceIndex()), "utf8");
+      console.log(`wrote ${relative(ROOT, f)}`);
+      break;
+    }
+    case "diff": {
+      const pills = loadPills(PILL_ID);
+      const [a, b] = [args[0], args[1]].map((v) => {
+        const p = pills.find((x) => x.version === v);
+        if (!p) throw new Error(`no version ${v}`);
+        return p;
+      });
+      const md = renderDiff(b.name, diffPills(a, b));
+      console.log(md);
+      if (flag("md")) {
+        const f = join(ROOT, "docs", "cards", `diff-${a.version}-${b.version}.md`);
+        mkdirSync(dirname(f), { recursive: true });
+        writeFileSync(f, md, "utf8");
+        console.log(`wrote ${relative(ROOT, f)}`);
+      }
+      break;
+    }
     default:
-      console.log(["usage:", "  pills replay [--fresh] [--until CASE] [--approve-last]", "  pills approve|reject <version> --by <name> [--role R] [--role-played] [--note text] [--at ISO] [--effective ISO]", "  pills rollback <to-version> --by <name> [--note text]", "  pills verify [--record]", "  pills ledger"].join("\n"));
+      console.log(["usage:", "  pills replay [--fresh] [--until CASE] [--approve-last]", "  pills approve|reject <version> --by <name> [--role R] [--role-played] [--note text] [--at ISO] [--effective ISO]", "  pills rollback <to-version> --by <name> [--note text]", "  pills verify [--record]", "  pills ledger", "  pills card <version>", "  pills diff <from> <to> [--md]"].join("\n"));
   }
 }
 
